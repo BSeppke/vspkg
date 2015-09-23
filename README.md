@@ -37,7 +37,7 @@ The vspkg system is quite small, since literally consists of recipes and patches
 1. Determine if package has already been installed (see installed_packages below).
 2. If not: 
   - Install all the dependencies.
-  - Fetch the hdf5 source archive and unpack it.
+  - Fetch the source archive and unpack it.
   - Patch it if necessary.
   - Build the binaries
   - Install binaries, headers, docs and shared files.
