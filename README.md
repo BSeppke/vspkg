@@ -1,13 +1,13 @@
 vspkg
 =====
 
-A linux-like package manager for Windows, especially for MS Visual Studio
+A Linux-like package manager for Windows, especially for MS Visual Studio. 
 
 The aim of this project is to port at least some of the functionality of a powerful package manager (like dpkg for linux or MacPorts for Mac) to Windows / Microsoft Visual Studio. If successful, this will greatly enhance the work using (open source) tools like we know it from Linux systems. Fortunately, the Windows PowerShell provides at least a usable shell to implement such a system.
 
 1. Prerequisites
 ----------------
-vspkg is written using the Windows PowerShell 2.0. This implies, that you need to have at least Windows XP installed on your Computer. It should also work with any newer Windows Version, and hopefully any newer PowerShell version, accordingly.
+vspkg is written using the Windows PowerShell 2.0. This implies, that you need to have at least Windows XP installed on your computer. It should also work with any newer Windows Version, and hopefully any newer PowerShell version, accordingly.
 Many packages will be compiled using C/C++ and thus require Microsoft Visual Studio to be installed, too. Currently, the packages shall compile fine for Visual Studio 2010 and 2012 (for both, 32- and 64-bit). Please make sure to have the lastest Service Packs installed, too.
 
 2. Installation
@@ -32,7 +32,7 @@ This should create the hdf5 package.
 
 4. Understanding the vspkg system
 ---------------------------------
-The vspkg system is quite small, since literally consists of recipes and patches of the packages, neither the source code nor the binaries are included. Thus, every "package.ps1" call need to perform some actions to install a package:
+The vspkg system is quite small, since literally consists of recipes and patches of the packages, neither the source code nor the binaries are included. Thus, every "package.ps1" call needs to perform some actions to install a package:
 
 1. Determine if package has already been installed (see installed_packages below).
 2. If not: 
@@ -43,7 +43,7 @@ The vspkg system is quite small, since literally consists of recipes and patches
   - Install binaries, headers, docs and shared files.
   - Mark package as installed.
 
-It's worth mentioning, that the download of packages is secured using the MD5 hashes of the packages. 
+The download, patch and build will all be performed in a temporary "work" subfolder of the package folder which will be deleted before and after the installation. Additionally, it's worth mentioning that the download of packages is secured using the MD5 hashes of the packages. 
 
 The directory structure of the vspkg results is yet very simple: "C:\vspkg\system\config.ps1" contains all the stuff to initialize the system and the main functions e.g. for downloading and compiling as well as defining the most important paths. These are (by default) Linux-line sub-folders of "C:\vspkg\vc{10|11}\{Win32|x64}":
 
