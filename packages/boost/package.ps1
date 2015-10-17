@@ -44,25 +44,23 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH BOOST
 #------------------------------------------------------------------------------
-$src="http://downloads.sourceforge.net/project/boost/boost/1.53.0/boost_1_53_0.zip"
-$dest="$scriptPath\work\boost_1_53_0.zip"
-download-check-unpack-file $src $dest "C618E030FD4882E4DBACF54BAF824544" >> $logFile
+$src="http://downloads.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.zip"
+$dest="$scriptPath\work\boost_1_59_0.zip"
+download-check-unpack-file $src $dest "08D29A2D85DB3EBC8C6FDFA3A1F2B83C" >> $logFile
 
 
 #------------------------------------------------------------------------------
 # STEP 5: APPLY PATCHES TO BOOST
 #------------------------------------------------------------------------------
-unpack-file "..\boost-1.53.0-patch.zip"  >> $logFile
-cp "boost-1.53.0-patch\*" "boost-1.53.0" -recurse -force
 
 
 #------------------------------------------------------------------------------
 # STEP 6: BUILD BOOST 
 #------------------------------------------------------------------------------
-cd "boost_1_53_0\tools\build\v2\"
+cd "boost_1_59_0\tools\build\"
 .\bootstrap.bat >> $logFile
 .\b2 "--prefix=$VSP_INSTALL_PATH"  >> $logFile
-cd ..\..\..
+cd ..\..
 
 $64bitflags = ""
 if ($VSP_BUILD_ARCH -eq "x64")
