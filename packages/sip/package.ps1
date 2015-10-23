@@ -81,8 +81,8 @@ nmake /NOLOGO install >> $logFile
 
 
 #------------------------------------------------------------------------------
-# STEP 8: CLEANUP NOSE AND FINISH
+# STEP 8: CLEANUP SIP AND FINISH
 #------------------------------------------------------------------------------
 cd ..\..
 rd work -force -recurse
-write-host "nose has been installed successfully!" -Foreground Green
+write-host "sip has been installed successfully!" -Foreground Green

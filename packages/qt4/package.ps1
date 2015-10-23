@@ -78,4 +78,4 @@ mv "$VSP_INSTALL_PATH\qt\lib\*.dll" "$VSP_INSTALL_PATH\qt\bin\" -force
 #------------------------------------------------------------------------------
 cd ..\..
 rd work -force -recurse
-write-host "jpeg has been installed successfully!" -Foreground Green
+write-host "Qt4 has been installed successfully!" -Foreground Green

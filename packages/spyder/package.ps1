@@ -38,6 +38,7 @@ easy_install pylint >> $logFile
 easy_install pep8 >> $logFile
 easy_install psutil >> $logFile
 easy_install markupsafe >> $logFile
+easy_install pytz >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 3: INITIALIZE SPYDER
