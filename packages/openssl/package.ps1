@@ -44,9 +44,9 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH OPENSSL
 #------------------------------------------------------------------------------
-$src="http://mirrors.ibiblio.org/openssl/source/openssl-1.0.2.tar.gz"
-$dest="$scriptPath\work\openssl-1.0.2.tar.gz"
-download-check-unpack-file $src $dest "38373013FC85C790AABF8837969C5EBA" >> $logFile
+$src="http://mirrors.ibiblio.org/openssl/source/openssl-1.0.2e.tar.gz"
+$dest="$scriptPath\work\openssl-1.0.2e.tar.gz"
+download-check-unpack-file $src $dest "5262bfa25b60ed9de9f28d5d52d77fc5" >> $logFile
 
 
 #------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ download-check-unpack-file $src $dest "38373013FC85C790AABF8837969C5EBA" >> $log
 #------------------------------------------------------------------------------
 # STEP 6: BUILD OPENSSL
 #------------------------------------------------------------------------------
-cd  "openssl-1.0.2"
+cd  "openssl-1.0.2e"
 
 $Env:PERL5LIB="$VSP_LIB_PATH\perl5"
 
