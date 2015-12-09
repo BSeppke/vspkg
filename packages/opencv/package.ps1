@@ -85,7 +85,30 @@ devenv OpenCV.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 devenv OpenCV.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 
 #------------------------------------------------------------------------------
-# STEP 8: CLEANUP OPENCV AND FINISH
+# STEP 7: CLEANUP OPENCV'S STRANGE INSTALLATION
+#------------------------------------------------------------------------------
+$VSP_OPENCV_DIST_FLAG = "x86"
+if ($VSP_BUILD_ARCH -eq "x64")
+{
+	$VSP_OPENCV_DIST_FLAG = "x64"
+}
+$VSP_OPENCV_DIST_FOLDER = "$VSP_INSTALL_PATH\$VSP_OPENCV_DIST_FLAG\vc$VSP_MSVC_VER"
+
+cp "$VSP_OPENCV_DIST_FOLDER\bin\*" "$VSP_BIN_PATH" -force
+cp "$VSP_OPENCV_DIST_FOLDER\lib\*.lib" "$VSP_LIB_PATH"  -force
+
+md "$VSP_SHARE_PATH\cmake\opencv" -force >> $logFile
+mv "$VSP_INSTALL_PATH\*.cmake" "$VSP_SHARE_PATH\cmake\opencv" -force
+cp "$VSP_OPENCV_DIST_FOLDER\lib\*.cmake" "$VSP_SHARE_PATH\cmake-3.2\Modules"  -force
+
+md "$VSP_DOC_PATH\opencv" -force >> $logFile
+mv "$VSP_DOC_PATH\*.png" "$VSP_DOC_PATH\opencv" -force
+mv "$VSP_DOC_PATH\*.ico" "$VSP_DOC_PATH\opencv" -force
+mv "$VSP_INSTALL_PATH\LICENSE" "$VSP_DOC_PATH\opencv" -force
+rd "$VSP_INSTALL_PATH\$VSP_OPENCV_DIST_FLAG" -force -recurse >> $logFile
+
+#------------------------------------------------------------------------------
+# STEP 8: FINAL/BASIC CLEANUP OPENCV AND FINISH
 #------------------------------------------------------------------------------
 
 cd ..\..\..

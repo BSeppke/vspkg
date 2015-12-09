@@ -97,4 +97,4 @@ cp "..\include\*.h" "$VSP_INCLUDE_PATH"-force
 
 cd ..\..\..
 rd work -force -recurse
-write-host "freenact has been installed successfully!" -Foreground Green
+write-host "freenect has been installed successfully!" -Foreground Green
