@@ -51,23 +51,24 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH QT5
 #------------------------------------------------------------------------------
-$src="http://download.qt.io/official_releases/qt/5.5/5.5.0/single/qt-everywhere-opensource-src-5.5.0.zip"
-$dest="$scriptPath\work\qt-everywhere-opensource-src-5.5.0.zip"
-download-check-unpack-file $src $dest "299ABCA0A091B6B06CBBC6387F4FFF9F" >> $logFile
-
+$src="http://download.qt.io/official_releases/qt/5.5/5.5.1/single/qt-everywhere-opensource-src-5.5.1.zip"
+$dest="$scriptPath\work\qt-everywhere-opensource-src-5.5.1.zip"
+download-check-unpack-file $src $dest "D071CDAA1B8F34FB49F6DEAC94039C2C" >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 5: APPLY PATCHES TO QT5
 #------------------------------------------------------------------------------
-
+$VSP_QT5_SRC_DIR="$scriptPath\work\qt-everywhere-opensource-src-5.5.1"
+add-to-envVar-if-necessary "$VSP_QT5_SRC_DIR\qtbase\bin" "PATH"
+add-to-envVar-if-necessary "$VSP_QT5_SRC_DIR\gnuwin32\bin" "PATH"
 
 #------------------------------------------------------------------------------
 # STEP 6: BUILD QT5
 #------------------------------------------------------------------------------
-cd  "qt-everywhere-opensource-src-5.5.0"
+cd  "qt-everywhere-opensource-src-5.5.1"
 #remove unix file, so that windows can find and execute the batch file!
 rm "configure"
-.\configure -prefix "$VSP_INSTALL_PATH\qt5"  -I "$VSP_INCLUDE_PATH" -L "$VSP_LIB_PATH" -opensource -nomake tests -nomake examples -release -confirm-license -mp -nomake examples -no-audio-backend -no-sql-sqlite -no-sql-sqlite2 -no-sql-psql -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-tds -no-dbus -no-cups -no-nis -release -shared -system-zlib -system-libpng -system-libjpeg >> $logFile
+.\configure -prefix "$VSP_INSTALL_PATH\qt5" -I "$VSP_INCLUDE_PATH" -L "$VSP_LIB_PATH" -opensource -nomake tests -nomake examples -release -confirm-license -no-audio-backend -no-sql-sqlite -no-sql-sqlite2 -no-sql-psql -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-tds -no-dbus -no-cups -no-nis -release -shared -system-zlib -system-libpng -system-libjpeg -no-freetype >> $logFile
 
 nmake /NOLOGO >> $logFile
 
