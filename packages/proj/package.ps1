@@ -66,6 +66,9 @@ nmake /NOLOGO /f Makefile.vc  >> $logFile
 #------------------------------------------------------------------------------
 nmake /NOLOGO /f Makefile.vc  install >> $logFile
 
+cp "$VSP_LIB_PATH/proj_i.lib" "$VSP_LIB_PATH/proj.lib"
+cp "$VSP_LIB_PATH/proj.lib" "$VSP_LIB_PATH/libproj.lib"
+
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP PROJ AND FINISH
 #------------------------------------------------------------------------------
