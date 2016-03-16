@@ -70,7 +70,7 @@ nmake /NOLOGO >> $logFile
 mv "src\*.h"   "$VSP_INCLUDE_PATH" -force
 mv "lib\*.dll" "$VSP_BIN_PATH" -force
 mv "lib\*"     "$VSP_LIB_PATH" -force
-mv "designer\plugins\designer\*" "$VSP_QT4_PATH\plugins\designer" -force
+mv "designer\plugins\designer\*" "$Env:QTDIR\plugins\designer" -force
 
 
 #------------------------------------------------------------------------------

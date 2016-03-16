@@ -250,7 +250,12 @@ $Env:PYTHONHOME      = $VSP_PYTHON_PATH
 
 $VSP_QT4_PATH     = $VSP_INSTALL_PATH + "\qt"
 $VSP_QT4_UNIXPATH = $VSP_INSTALL_UNIXPATH + "/qt"
-$Env:QTDIR        = $VSP_QT4_PATH
+
+$VSP_QT5_PATH     = $VSP_INSTALL_PATH + "\qt5"
+$VSP_QT5_UNIXPATH = $VSP_INSTALL_UNIXPATH + "/qt5"
+
+#Switch for qt4 or qt5
+$Env:QTDIR        = $VSP_QT5_PATH
 
 #------------------ ADD VSP DIRECTORIES TO ENV -----------------------
 set-item "Env:\VSP_INSTALL_PATH" $VSP_INSTALL_PATH 
@@ -260,7 +265,7 @@ add-to-envVar-if-necessary "$($VSP_PERL_PATH)\bin" "PATH"
 add-to-envVar-if-necessary $VSP_PYTHON_PATH "PATH"
 add-to-envVar-if-necessary "$($VSP_PYTHON_PATH)\DLLs" "PATH"
 add-to-envVar-if-necessary "$($VSP_PYTHON_PATH)\Scripts" "PATH"
-add-to-envVar-if-necessary "$($VSP_QT4_PATH)\bin" "PATH"
+add-to-envVar-if-necessary "$Env:QTDIR\bin" "PATH"
 add-to-envVar-if-necessary $VSP_BIN_PATH "PATH"
 
 
