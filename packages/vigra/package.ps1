@@ -91,6 +91,7 @@ devenv vigra.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP VIGRA AND FINISH
 #------------------------------------------------------------------------------
+mv "..\VigraConfig.cmake" "$VSP_SHARE_PATH\cmake\vigra\" -force
 mv "..\vigra-targets.cmake" "$VSP_SHARE_PATH\cmake\vigra\" -force
 mv "..\vigra-targets-release.cmake" "$VSP_SHARE_PATH\cmake\vigra\" -force
 
