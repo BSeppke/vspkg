@@ -44,20 +44,20 @@ if(test-path($logFile))
 # STEP 3: INITIALIZE VIGRA
 #------------------------------------------------------------------------------
 cd $scriptPath
-#if(test-path("$scriptPath\work"))
-#{
-#	rd work -force -recurse
-#}
-#md work >> $logFile
+if(test-path("$scriptPath\work"))
+{
+	rd work -force -recurse
+}
+md work >> $logFile
 cd work
 
 
 #------------------------------------------------------------------------------
 # STEP 4: FETCH VIGRA
 #------------------------------------------------------------------------------
-#$src="https://github.com/ukoethe/vigra/releases/download/Version-1-11-0/vigra-1.11.0-src.tar.gz"
-#$dest="$scriptPath\work\vigra-Version-1-11-0.tar.gz"
-#download-check-unpack-file $src $dest "7F80D289E03A2F2E8C8E85F3FF29D988" >> $logFile
+$src="https://github.com/ukoethe/vigra/releases/download/Version-1-11-0/vigra-1.11.0-src.tar.gz"
+$dest="$scriptPath\work\vigra-Version-1-11-0.tar.gz"
+download-check-unpack-file $src $dest "7F80D289E03A2F2E8C8E85F3FF29D988" >> $logFile
 
 
 #------------------------------------------------------------------------------
@@ -97,5 +97,5 @@ devenv vigra.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 #mv "..\vigra-targets-release.cmake" "$VSP_SHARE_PATH\cmake\vigra\" -force
 
 cd ..\..\..
-#rd work -force -recurse
+rd work -force -recurse
 write-host "vigra has been installed successfully!" -Foreground Green
