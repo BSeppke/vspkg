@@ -1,6 +1,7 @@
 param([switch]$force, [switch]$silent)
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
-."..\..\system\config.ps1" -silent
+."..\..\system\tools.ps1" -silent
+."..\..\system\environment.ps1" -silent
 
 #------------------------------------------------------------------------------
 # STEP 1: CHECK, IF OPENCV IS ALREADY INSTALLED
@@ -17,7 +18,7 @@ if(test-path($logFile))
 		if(-not $silent)
 		{
 			write-host "opencv has already been installed!" -Foreground Yellow
-			write-host "If you want to force installation, all this script again with the '-force' flag!" -Foreground Yellow
+			write-host "If you want to force installation, call this script again with the '-force' flag!" -Foreground Yellow
 		}
 		return
 	}

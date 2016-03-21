@@ -1,6 +1,7 @@
 param([switch]$force, [switch]$silent)
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
-."..\..\system\config.ps1" -silent
+."..\..\system\tools.ps1" -silent
+."..\..\system\environment.ps1" -silent
 
 #------------------------------------------------------------------------------
 # STEP 1: CHECK, IF OPENSSL IS ALREADY INSTALLED
@@ -17,7 +18,7 @@ if(test-path($logFile))
 		if(-not $silent)
 		{
 			write-host "openssl has already been installed!" -Foreground Yellow
-			write-host "If you want to force installation, all this script again with the '-force' flag!" -Foreground Yellow
+			write-host "If you want to force installation, call this script again with the '-force' flag!" -Foreground Yellow
 		}
 		return
 	}
@@ -44,7 +45,7 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH OPENSSL
 #------------------------------------------------------------------------------
-$src="http://mirrors.ibiblio.org/openssl/source/openssl-1.0.2e.tar.gz"
+$src="http://mirrors.ibiblio.org/openssl/source/old/1.0.2/openssl-1.0.2e.tar.gz"
 $dest="$scriptPath\work\openssl-1.0.2e.tar.gz"
 download-check-unpack-file $src $dest "5262bfa25b60ed9de9f28d5d52d77fc5" >> $logFile
 
