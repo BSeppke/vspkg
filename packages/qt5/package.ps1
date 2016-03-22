@@ -33,9 +33,19 @@ if(test-path($logFile))
 ..\png\package.ps1
 ..\tiff\package.ps1
 ..\freetype\package.ps1
-..\gperf\package.ps1
-..\icu\package.ps1
-..\ruby\package.ps1
+#Temporary removed Webkit's dependencies, since WebKit fails to compile anyhow:
+#------------------------------------------------------------------------------------------------
+#YarrJIT.cpp
+#C:\vspkg\vc11\x64\include\Opcode.h(154) : error C2065: 'Py_LT': nichtdeklarierter Bezeichner
+#C:\vspkg\vc11\x64\include\Opcode.h(154) : error C2065: 'Py_LE': nichtdeklarierter Bezeichner
+#C:\vspkg\vc11\x64\include\Opcode.h(154) : error C2065: 'Py_EQ': nichtdeklarierter Bezeichner
+#C:\vspkg\vc11\x64\include\Opcode.h(154) : error C2065: 'Py_NE': nichtdeklarierter Bezeichner
+#C:\vspkg\vc11\x64\include\Opcode.h(154) : error C2065: 'Py_GT': nichtdeklarierter Bezeichner
+#C:\vspkg\vc11\x64\include\Opcode.h(154) : error C2065: 'Py_GE': nichtdeklarierter Bezeichner
+#------------------------------------------------------------------------------------------------
+#..\icu\package.ps1
+#..\gperf\package.ps1
+#..\ruby\package.ps1
 
 #------------------------------------------------------------------------------
 # STEP 3: INITIALIZE QT5
@@ -69,7 +79,7 @@ add-to-envVar-if-necessary "$VSP_QT5_SRC_DIR\gnuwin32\bin" "PATH"
 cd  "qt-everywhere-opensource-src-5.5.1"
 #remove unix file, so that windows can find and execute the batch file!
 rm "configure"
-.\configure -prefix "$VSP_INSTALL_PATH\qt5" -I "$VSP_INCLUDE_PATH" -L "$VSP_LIB_PATH" -opensource -icu -nomake tests -nomake examples -release -confirm-license -no-audio-backend -no-sql-sqlite -no-sql-sqlite2 -no-sql-psql -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-tds -no-dbus -no-cups -no-nis -release -shared -system-zlib -system-libpng -system-libjpeg -no-freetype >> $logFile
+.\configure -prefix "$VSP_INSTALL_PATH\qt5" -I "$VSP_INCLUDE_PATH" -L "$VSP_LIB_PATH" -opensource -nomake tests -nomake examples -release -confirm-license -no-audio-backend -no-sql-sqlite -no-sql-sqlite2 -no-sql-psql -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-tds -no-dbus -no-cups -no-nis -release -shared -system-zlib -system-libpng -system-libjpeg -no-freetype >> $logFile
 
 nmake /NOLOGO >> $logFile
 
