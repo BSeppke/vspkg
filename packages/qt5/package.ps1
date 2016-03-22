@@ -43,7 +43,7 @@ if(test-path($logFile))
 cd $scriptPath
 if(test-path("$scriptPath\work"))
 {
-	rd work -force -recurse
+    rd work -force -recurse
 }
 md work >> $logFile
 cd work
@@ -69,7 +69,7 @@ add-to-envVar-if-necessary "$VSP_QT5_SRC_DIR\gnuwin32\bin" "PATH"
 cd  "qt-everywhere-opensource-src-5.5.1"
 #remove unix file, so that windows can find and execute the batch file!
 rm "configure"
-.\configure -prefix "$VSP_INSTALL_PATH\qt5" -I "$VSP_INCLUDE_PATH" -L "$VSP_LIB_PATH" -opensource -nomake tests -nomake examples -release -confirm-license -no-audio-backend -no-sql-sqlite -no-sql-sqlite2 -no-sql-psql -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-tds -no-dbus -no-cups -no-nis -release -shared -system-zlib -system-libpng -system-libjpeg -no-freetype >> $logFile
+.\configure -prefix "$VSP_INSTALL_PATH\qt5" -I "$VSP_INCLUDE_PATH" -L "$VSP_LIB_PATH" -opensource -icu -nomake tests -nomake examples -release -confirm-license -no-audio-backend -no-sql-sqlite -no-sql-sqlite2 -no-sql-psql -no-sql-db2 -no-sql-ibase -no-sql-mysql -no-sql-oci -no-sql-odbc -no-sql-tds -no-dbus -no-cups -no-nis -release -shared -system-zlib -system-libpng -system-libjpeg -no-freetype >> $logFile
 
 nmake /NOLOGO >> $logFile
 

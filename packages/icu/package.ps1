@@ -74,7 +74,7 @@ if($VSP_BUILD_ARCH -eq "x64")
 
 cp "..\..\bin$VSP_RELEASE_SUFFIX\*.*" "$VSP_BIN_PATH"
 cp "..\..\lib$VSP_RELEASE_SUFFIX\*.*" "$VSP_LIB_PATH"
-cp "..\..\include\*.*"                "$VSP_INCLUDE_PATH"
+cp "..\..\include\*"                "$VSP_INCLUDE_PATH" -force -recurse
 
 
 #------------------------------------------------------------------------------
