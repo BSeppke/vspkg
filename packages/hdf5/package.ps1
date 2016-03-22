@@ -87,9 +87,11 @@ devenv HDF5.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP HDF5 AND FINISH
 #------------------------------------------------------------------------------
-create-directory-if-necessary  "$VSP_SHARE_PATH\cmake\hdf5"
-cp "$VSP_INSTALL_PATH\cmake\hdf5\*"  "$VSP_SHARE_PATH\cmake\hdf5" -force
+
+#CMake alredy provides finding HDF5
 rm "$VSP_INSTALL_PATH\cmake" -force -recurse
+
+#Repair/re-copy docs
 mv "$VSP_INSTALL_PATH\COPYING" "$VSP_DOC_PATH\hf5" -force
 mv "$VSP_INSTALL_PATH\RELEASE.txt" "$VSP_DOC_PATH\hdf5" -force
 mv "$VSP_INSTALL_PATH\USING_HDF5_CMake.txt" "$VSP_DOC_PATH\hf5" -force

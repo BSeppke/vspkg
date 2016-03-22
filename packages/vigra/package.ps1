@@ -24,7 +24,6 @@ if(test-path($logFile))
 	}
 }
 
-
 #------------------------------------------------------------------------------
 # STEP 2: INSTALL DEPENDENCIES
 #------------------------------------------------------------------------------
@@ -71,6 +70,10 @@ cp "vigra-1.11.0-patch\*" "vigra-1.11.0\" -recurse -force
 # STEP 6: BUILD VIGRA
 #------------------------------------------------------------------------------
 cd "vigra-1.11.0\"
+if(test-path("$scriptPath\work\vigra-1.11.0\build"))
+{
+	rd build -force -recurse
+}
 md build >> $logFile
 cd build
 
@@ -79,10 +82,9 @@ if ($VSP_BUILD_ARCH -eq "x64")
 {
 	$VSP_CMAKE_MSVC_GENERATOR = $VSP_CMAKE_MSVC_GENERATOR + " Win64"
 }
-&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DWITH_OPENEXR=1" "-DDEPENDENCY_SEARCH_PREFIX=$VSP_INSTALL_PATH" "-DHDF5_CPPFLAGS=-D_HDF5USEDLL_" "-DZLIB_LIBRARY=$VSP_LIB_UNIXPATH/zlibstat.lib" ".." >> $logFile
+&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DWITH_OPENEXR=1" "-DDEPENDENCY_SEARCH_PREFIX=$VSP_INSTALL_PATH" "-DZLIB_LIBRARY=$VSP_LIB_UNIXPATH/z.lib" "-DJPEG_LIBRARY=$VSP_LIB_UNIXPATH/jpeg.lib"  "-DTIFF_LIBRARY=$VSP_LIB_UNIXPATH/tiff.lib" "-DPNG_LIBRARY=$VSP_LIB_UNIXPATH/png.lib" ".." >> $logFile
 
 devenv vigra.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
-
 
 #------------------------------------------------------------------------------
 # STEP 6: INSTALL VIGRA
@@ -92,9 +94,6 @@ devenv vigra.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP VIGRA AND FINISH
 #------------------------------------------------------------------------------
-#mv "..\VigraConfig.cmake" "$VSP_SHARE_PATH\cmake\vigra\" -force
-#mv "..\vigra-targets.cmake" "$VSP_SHARE_PATH\cmake\vigra\" -force
-#mv "..\vigra-targets-release.cmake" "$VSP_SHARE_PATH\cmake\vigra\" -force
 
 cd ..\..\..
 rd work -force -recurse
