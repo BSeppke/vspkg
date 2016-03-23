@@ -48,7 +48,7 @@ cd work
 #------------------------------------------------------------------------------
 $src="http://downloads.sourceforge.net/project/pyqt/PyQt4/PyQt-4.10/PyQt-win-gpl-4.10.zip"
 $dest="$scriptPath\work\PyQt-win-gpl-4.10.zip"
-download-check-unpack-file $src $dest "28E82A6E64E22E9CAA508034A91493DC" "-erroraction 'silentlyStop'" >> $logFile
+download-check-unpack-file $src $dest "28E82A6E64E22E9CAA508034A91493DC" >> $logFile
 
 
 #------------------------------------------------------------------------------

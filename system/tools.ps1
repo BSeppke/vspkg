@@ -119,11 +119,16 @@ function unpack-file
 	$7ZipPath = check-install-7zip
 	
 	& "$7ZipPath" "x" $file "-aoa"
-	$unpackedfile = ([io.fileinfo]$file).basename
-	if( ([io.fileinfo] $unpackedfile).Extension -eq ".tar")
+	
+	#If file.tar.gz unzips to file.tar, we will unzip file.tar, too.
+	$file_tar = ([io.fileinfo]$file).basename
+	if( ([io.fileinfo] $file_tar).Extension -eq ".tar")
 	{
-		& "$7ZipPath" "x" $unpackedfile "-aoa"
-		rm $unpackedfile
+		if (Test-Path $file_tar)
+		{
+			& "$7ZipPath" "x" $file_tar "-aoa"
+			rm $file_tar
+		}
 	}
 }
 

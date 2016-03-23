@@ -48,20 +48,10 @@ cd work
 $src="http://downloads.sourceforge.net/project/numpy/NumPy/1.9.2/numpy-1.9.2.tar.gz"
 $dest="$scriptPath\work\numpy-1.9.2.tar.gz"
 
-try
-{
-	download-check-unpack-file $src $dest "A1ED53432DBCD256398898D35BC8E645" "-erroraction 'silentlyStop'" >> $logFile
-}
-catch [system.exception]
-{
-	#we know this would happen, since "numpy-1.9.2.tar.gz" extracts to "dist/numpy-1.9.2.tar"
-}
-finally
-{
-	mv "dist\numpy-1.9.2.tar" ".\numpy-1.9.2.tar"
-	rd "dist" -force
-	unpack-file "numpy-1.9.2.tar" >> $logFile
-}
+download-check-unpack-file $src $dest "A1ED53432DBCD256398898D35BC8E645" >> $logFile
+mv "dist\numpy-1.9.2.tar" ".\numpy-1.9.2.tar"
+rd "dist" -force
+unpack-file "numpy-1.9.2.tar" >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 5: APPLY PATCHES TO NUMPY
