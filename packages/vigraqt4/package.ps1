@@ -69,7 +69,7 @@ cd "src\vigraqt"
 qmake INSTALLBASE="$VSP_INSTALL_PATH" >> $logFile
 nmake /NOLOGO >> $logFile
 nmake /NOLOGO install >> $logFile
-cp "$VSP_LIB_PATH\VigraQt0.dll" "$VSP_BIN_PATH\" -force
+mv "$VSP_LIB_PATH\VigraQt0.dll" "$VSP_BIN_PATH\" -force
 
 cd "..\sip"
 &"$VSP_PYTHON_PATH\python" configure.py >> $logFile

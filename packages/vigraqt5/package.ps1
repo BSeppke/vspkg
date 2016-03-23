@@ -68,7 +68,7 @@ cd "src\vigraqt"
 qmake INSTALLBASE="$VSP_INSTALL_PATH" "QT+=widgets" >> $logFile
 nmake /NOLOGO >> $logFile
 nmake /NOLOGO install >> $logFile
-cp "$VSP_LIB_PATH\VigraQt0.dll" "$VSP_BIN_PATH\" -force
+mv "$VSP_LIB_PATH\VigraQt0.dll" "$VSP_BIN_PATH\" -force
 
 #PyQt not supported yet...
 #cd "..\sip"
