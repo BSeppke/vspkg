@@ -4,9 +4,9 @@ $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 ."..\..\system\environment.ps1" -silent
 
 #------------------------------------------------------------------------------
-# STEP 1: CHECK, IF VIGRAQT5 IS ALREADY INSTALLED
+# STEP 1: CHECK, IF QT5-QWT IS ALREADY INSTALLED
 #------------------------------------------------------------------------------
-$logFile="$($VSP_INSTALL_REGISTRY_PATH)\vigraqt5"
+$logFile="$($VSP_INSTALL_REGISTRY_PATH)\qt5-qwt"
 if(test-path($logFile))
 { 
 	if($force)
@@ -17,7 +17,7 @@ if(test-path($logFile))
 	{
 		if(-not $silent)
 		{
-			write-host "vigraqt5 has already been installed!" -Foreground Yellow
+			write-host "qwt has already been installed!" -Foreground Yellow
 			write-host "If you want to force installation, call this script again with the '-force' flag!" -Foreground Yellow
 		}
 		return
@@ -28,12 +28,10 @@ if(test-path($logFile))
 #------------------------------------------------------------------------------
 # STEP 2: INSTALL DEPENDENCIES
 #------------------------------------------------------------------------------
-#..\pyqt4\package.ps1 #P<Qt5 not supported yet
 ..\qt5\package.ps1
-..\vigra\package.ps1
 
 #------------------------------------------------------------------------------
-# STEP 3: INITIALIZE VIGRAQT5
+# STEP 3: INITIALIZE QT5-QWT
 #------------------------------------------------------------------------------
 cd $scriptPath
 if(test-path("$scriptPath\work"))
@@ -45,44 +43,40 @@ cd work
 
 
 #------------------------------------------------------------------------------
-# STEP 4: FETCH VIGRAQT-Master
+# STEP 4: FETCH QT5-QWT
 #------------------------------------------------------------------------------
-unpack-file "..\vigraqt-master.zip"  >> $logFile
-
+$src="http://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.zip"
+$dest="$scriptPath\work\qwt-6.1.2.zip"
+download-check-unpack-file $src $dest "B43A4E93C59B09FA3EB60B2406B4B37F"  >> $logFile
 
 #------------------------------------------------------------------------------
-# STEP 5: APPLY PATCHES TO VIGRAQT5
+# STEP 5: APPLY PATCHES TO QT5-QWT
 #------------------------------------------------------------------------------
-unpack-file "..\vigraqt4-0.6-patch.zip"  >> $logFile
-cp "vigraqt4-0.6-patch\*" "vigraqt\" -recurse -force
-
-cd "vigraqt"
-&"$VSP_PYTHON_PATH\python" patch.py "$VSP_PKG_UNIXPATH/vigraqt5/work/vigraqt" "$VSP_INSTALL_UNIXPATH" >> $logFile
+unpack-file "..\qwt-6.1.2-patch.zip"  >> $logFile
+cp "qwt-6.1.2-patch\*" "qwt-6.1.2\" -recurse -force
 
 
 #------------------------------------------------------------------------------
-# STEP 6: BUILD AND INSTALL VIGRAQT5 
+# STEP 6: BUILD QT5-QWT 
 #------------------------------------------------------------------------------
-cd "src\vigraqt"
+cd "qwt-6.1.2"
 
-
-
-&"$VSP_QT5_PATH\bin\qmake" INSTALLBASE="$VSP_INSTALL_PATH" "QT+=widgets" >> $logFile
+&"$VSP_QT5_PATH\bin\qmake" qwt.pro -recursive >> $logFile
 nmake /NOLOGO >> $logFile
-nmake /NOLOGO install >> $logFile
-mv "$VSP_LIB_PATH\VigraQt0.dll" "$VSP_BIN_PATH\" -force
-
-#PyQt not supported yet...
-#cd "..\sip"
-#&"$VSP_PYTHON_PATH\python" configure.py >> $logFile
-#
-#nmake /NOLOGO >> $logFile
-#nmake /NOLOGO install >> $logFile
 
 
 #------------------------------------------------------------------------------
-# STEP 7: CLEANUP VIGRAQT5 AND FINISH
+# STEP 7: INSTALL QT5-QWT 
 #------------------------------------------------------------------------------
-cd ..\..\..\..
+mv "src\*.h"   "$VSP_QT5_PATH\include" -force
+mv "lib\*.dll" "$VSP_QT5_PATH\bin" -force
+mv "lib\*"     "$VSP_QT5_PATH\lib" -force
+mv "designer\plugins\designer\*" "$VSP_QT5_PATH\plugins\designer" -force
+
+
+#------------------------------------------------------------------------------
+# STEP 7: CLEANUP QT5-QWT AND FINISH
+#------------------------------------------------------------------------------
+cd ..\..
 rd work -force -recurse
-write-host "vigraqt5 has been installed successfully!" -Foreground Green
+write-host "qt5-qwt has been installed successfully!" -Foreground Green

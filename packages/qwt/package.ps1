@@ -61,22 +61,21 @@ cp "qwt-6.1.2-patch\*" "qwt-6.1.2\" -recurse -force
 #------------------------------------------------------------------------------
 cd "qwt-6.1.2"
 
-qmake qwt.pro >> $logFile
+&"$VSP_QT4_PATH\bin\qmake" qwt.pro -recursive >> $logFile
 nmake /NOLOGO >> $logFile
 
 
 #------------------------------------------------------------------------------
-# STEP 7: INSTALL QWT 
+# STEP 7: INSTALL QT5-QWT 
 #------------------------------------------------------------------------------
-mv "src\*.h"   "$VSP_INCLUDE_PATH" -force
-mv "lib\*.dll" "$VSP_BIN_PATH" -force
-mv "lib\*"     "$VSP_LIB_PATH" -force
-mv "designer\plugins\designer\*" "$Env:QTDIR\plugins\designer" -force
-
+mv "src\*.h"   "$VSP_QT4_PATH\include" -force
+mv "lib\*.dll" "$VSP_QT4_PATH\bin" -force
+mv "lib\*"     "$VSP_QT4_PATH\lib" -force
+mv "designer\plugins\designer\*" "$VSP_QT4_PATH\plugins\designer" -force
 
 #------------------------------------------------------------------------------
 # STEP 7: CLEANUP QWT AND FINISH
 #------------------------------------------------------------------------------
 cd ..\..
 rd work -force -recurse
-write-host "qwt has been installed successfully!" -Foreground Green
+write-host "qwt (for Qt4) has been installed successfully!" -Foreground Green

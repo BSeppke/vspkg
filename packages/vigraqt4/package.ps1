@@ -66,7 +66,8 @@ cd "vigraqt4-0.6"
 #------------------------------------------------------------------------------
 cd "src\vigraqt"
 
-qmake INSTALLBASE="$VSP_INSTALL_PATH" >> $logFile
+
+&"$VSP_QT4_PATH\bin\qmake" INSTALLBASE="$VSP_INSTALL_PATH" >> $logFile
 nmake /NOLOGO >> $logFile
 nmake /NOLOGO install >> $logFile
 mv "$VSP_LIB_PATH\VigraQt0.dll" "$VSP_BIN_PATH\" -force
