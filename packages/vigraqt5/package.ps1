@@ -28,7 +28,7 @@ if(test-path($logFile))
 #------------------------------------------------------------------------------
 # STEP 2: INSTALL DEPENDENCIES
 #------------------------------------------------------------------------------
-#..\pyqt4\package.ps1 #P<Qt5 not supported yet
+#..\pyqt4\package.ps1 #PyQt5 not supported yet
 ..\qt5\package.ps1
 ..\vigra\package.ps1
 
@@ -65,12 +65,10 @@ cd "vigraqt"
 #------------------------------------------------------------------------------
 cd "src\vigraqt"
 
-
-
-&"$VSP_QT5_PATH\bin\qmake" INSTALLBASE="$VSP_INSTALL_PATH" "QT+=widgets" >> $logFile
+&"$VSP_QT5_PATH\bin\qmake" INSTALLBASE="$VSP_QT5_PATH" "QT+=widgets"  >> $logFile
 nmake /NOLOGO >> $logFile
 nmake /NOLOGO install >> $logFile
-mv "$VSP_LIB_PATH\VigraQt0.dll" "$VSP_BIN_PATH\" -force
+mv "$VSP_QT5_PATH\lib\VigraQt0.dll" "$VSP_QT5_PATH\bin\" -force
 
 #PyQt not supported yet...
 #cd "..\sip"
