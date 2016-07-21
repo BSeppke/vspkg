@@ -36,7 +36,7 @@ if(test-path($logFile))
 ..\numpy\package.ps1
 ..\python\package.ps1
 ..\sphinx\package.ps1
-..\qt4\package.ps1
+..\qt5\package.ps1
 
 #------------------------------------------------------------------------------
 # STEP 3: INITIALIZE OPENCV
