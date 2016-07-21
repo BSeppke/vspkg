@@ -54,9 +54,9 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH VIGRA
 #------------------------------------------------------------------------------
-$src="https://github.com/ukoethe/vigra/releases/download/Version-1-11-0/vigra-1.11.0-src.tar.gz"
+$src="http://github.com/ukoethe/vigra/releases/download/Version-1-11-0/vigra-1.11.0-src.tar.gz"
 $dest="$scriptPath\work\vigra-Version-1-11-0.tar.gz"
-download-check-unpack-file $src $dest "7F80D289E03A2F2E8C8E85F3FF29D988" >> $logFile
+download-check-unpack-file $src $dest "7f80d289e03a2f2e8c8e85f3ff29d988" >> $logFile
 
 
 #------------------------------------------------------------------------------

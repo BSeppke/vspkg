@@ -29,6 +29,7 @@ if(test-path($logFile))
 # STEP 2: INSTALL DEPENDENCIES
 #------------------------------------------------------------------------------
 ..\qt5\package.ps1
+..\perl\package.ps1
 
 #------------------------------------------------------------------------------
 # STEP 3: INITIALIZE qt5-qtcharts
@@ -45,21 +46,20 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH qt5-qtcharts
 #------------------------------------------------------------------------------
-$src="https://github.com/qt/qtcharts/archive/v5.7.0.zip"
-$dest="$scriptPath\work\qtcharts-5.7.0.zip"
-download-check-unpack-file $src $dest "3AF4E15191724B9EF82E2991B3AD7C64"  >> $logFile
+#$src="https://github.com/qt/qtcharts/archive/v5.7.0.zip"
+#$dest="$scriptPath\work\qtcharts-5.7.0.zip"
+#download-check-unpack-file $src $dest "3AF4E15191724B9EF82E2991B3AD7C64"  >> $logFile
 
 #------------------------------------------------------------------------------
-# STEP 5: APPLY PATCHES TO qt5-qtcharts
+# STEP 4: Use the shipped distr. from github
 #------------------------------------------------------------------------------
-
+unpack-file "..\qtcharts.zip" >> $logFile
 
 #------------------------------------------------------------------------------
-# STEP 6: BUILD qt5-qtcharts 
+# STEP 5: QMake qt5-qtcharts 
 #------------------------------------------------------------------------------
-cd "qtcharts-5.7.0"
-
-&"$VSP_QT5_PATH\bin\qmake" >> $logFile
+cd "qtcharts"
+&"$VSP_QT5_PATH\bin\qmake" -recursive .\qtcharts.pro >> $logFile
 nmake /NOLOGO >> $logFile
 
 
@@ -73,5 +73,5 @@ nmake install /NOLOGO >> $logFile
 # STEP 7: CLEANUP qt5-qtcharts AND FINISH
 #------------------------------------------------------------------------------
 cd ..\..
-#rd work -force -recurse
+rd work -force -recurse
 write-host "qt5-qtcharts has been installed successfully!" -Foreground Green
