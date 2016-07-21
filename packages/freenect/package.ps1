@@ -89,7 +89,8 @@ cp "lib\Release\*.dll"  "$VSP_BIN_PATH" -force
 cp "lib\Release\*.lib"  "$VSP_LIB_PATH" -force
 cp "lib\Release\*.exp"  "$VSP_LIB_PATH" -force
 
-cp "..\include\*.h" "$VSP_INCLUDE_PATH"-force
+cp "..\include\*.h" "$VSP_INCLUDE_PATH" -force
+cp "..\wrappers\c_sync\*.h" "$VSP_INCLUDE_PATH" -force
 
 
 #------------------------------------------------------------------------------
