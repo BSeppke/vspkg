@@ -61,7 +61,15 @@ cp "ilmbase-1.0.2-patch\*" "ilmbase-1.0.2" -recurse -force
 #------------------------------------------------------------------------------
 # STEP 6: BUILD ILMBASE
 #------------------------------------------------------------------------------
-cd  "ilmbase-1.0.2\vc\vc$($VSP_MSVC_VER)\IlmBase"
+if ($VSP_MSVC_VER -eq 10)
+{
+	cd  "ilmbase-1.0.2\vc\vc10\IlmBase"
+}
+else
+{
+	cd  "ilmbase-1.0.2\vc\vc11\IlmBase"
+	devenv IlmBase.sln /Upgrade >> $logFile
+}
 devenv IlmBase.sln /Build "Release|$($VSP_BUILD_ARCH)" >> $logFile
 
 

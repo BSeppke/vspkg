@@ -46,9 +46,9 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH HDF5
 #------------------------------------------------------------------------------
-$src="http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.14/src/hdf5-1.8.14.zip"
-$dest="$scriptPath\work\hdf5-1.8.14.zip"
-download-check-unpack-file $src $dest "191E021BE59FD1950A9EE8329464D79D" >> $logFile
+$src="http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.0-patch1/src/hdf5-1.10.0-patch1.zip"
+$dest="$scriptPath\work\hdf5-1.10.0-patch1.zip"
+download-check-unpack-file $src $dest "5b4f6be0b170bacc85b77fa3424a580b" >> $logFile
 
 
 #------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ download-check-unpack-file $src $dest "191E021BE59FD1950A9EE8329464D79D" >> $log
 #------------------------------------------------------------------------------
 # STEP 6: BUILD AND INSTALL HDF5 (Static version)
 #------------------------------------------------------------------------------
-cd  "hdf5-1.8.14"
+cd  "hdf5-1.10.0-patch1"
 md build >> $logFile
 cd build
 
@@ -68,7 +68,7 @@ if ($VSP_BUILD_ARCH -eq "x64")
 {
 	$VSP_CMAKE_MSVC_GENERATOR = $VSP_CMAKE_MSVC_GENERATOR + " Win64"
 }
-&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DHDF5_BUILD_FORTRAN=OFF" "-DBUILD_TESTING=OFF" "-DHDF5_BUILD_HL_LIB=ON" "-DHDF5_BUILD_EXAMPLES=ON" "-DHDF5_BUILD_CPP_LIB=ON" "-DHDF5_BUILD_TOOLS=ON" "-DBUILD_SHARED_LIBS=OFF" ".." >> $logFile
+&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DHDF5_BUILD_FORTRAN=OFF" "-DBUILD_TESTING=OFF" "-DHDF5_BUILD_HL_LIB=ON" "-DHDF5_BUILD_EXAMPLES=OFF" "-DHDF5_BUILD_CPP_LIB=ON" "-DHDF5_BUILD_TOOLS=ON" "-DBUILD_SHARED_LIBS=OFF" ".." >> $logFile
 
 devenv HDF5.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 devenv HDF5.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
@@ -78,7 +78,7 @@ devenv HDF5.sln /Clean >> $logFile
 # STEP 7: BUILD AND INSTALL HDF5 (DLL version)
 #------------------------------------------------------------------------------
 rm CMakeCache.txt
-&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH"  "-DHDF5_BUILD_FORTRAN=OFF" "-DBUILD_TESTING=OFF" "-DHDF5_BUILD_HL_LIB=ON" "-DHDF5_BUILD_EXAMPLES=ON" "-DHDF5_BUILD_CPP_LIB=ON" "-DHDF5_BUILD_TOOLS=ON" "-DBUILD_SHARED_LIBS=ON" ".." >> $logFile
+&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH"  "-DHDF5_BUILD_FORTRAN=OFF" "-DBUILD_TESTING=OFF" "-DHDF5_BUILD_HL_LIB=ON" "-DHDF5_BUILD_EXAMPLES=OFF" "-DHDF5_BUILD_CPP_LIB=ON" "-DHDF5_BUILD_TOOLS=ON" "-DBUILD_SHARED_LIBS=ON" ".." >> $logFile
 
 devenv HDF5.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 devenv HDF5.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile

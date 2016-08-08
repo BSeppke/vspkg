@@ -61,7 +61,16 @@ cp "jpeg-8d\jconfig.vc" "jpeg-8d\jconfig.h" -force
 #------------------------------------------------------------------------------
 # STEP 6: BUILD JPEG
 #------------------------------------------------------------------------------
-cd  "jpeg-8d\vc$($VSP_MSVC_VER)"
+if ($VSP_MSVC_VER -eq 10)
+{
+	cd  "jpeg-8d\vc10"
+}
+else
+{
+	cd  "jpeg-8d\vc11"
+	devenv jpeg.sln /Upgrade >> $logFile
+	devenv apps.sln /Upgrade >> $logFile
+}
 devenv jpeg.sln /Build "Release|$($VSP_BUILD_ARCH)" /Project "jpeg" >> $logFile
 devenv jpeg.sln /Build "Release|$($VSP_BUILD_ARCH)" /Project "libjpeg" >> $logFile
 devenv apps.sln /Build "Release|$($VSP_BUILD_ARCH)" >> $logFile

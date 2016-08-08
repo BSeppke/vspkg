@@ -94,7 +94,15 @@ cp "$VSP_INCLUDE_PATH\zconf.h"  "..\Deploy\include\" -recurse -force
 #------------------------------------------------------------------------------
 # STEP 6: BUILD OPENEXR
 #------------------------------------------------------------------------------
-cd  "openexr-1.7.0\vc\vc$($VSP_MSVC_VER)\OpenEXR"
+if ($VSP_MSVC_VER -eq 10)
+{
+	cd  "openexr-1.7.0\vc\vc10\OpenEXR"
+}
+else
+{
+	cd  "openexr-1.7.0\vc\vc11\OpenEXR"
+	devenv OpenEXR.sln /Upgrade >> $logFile
+}
 devenv OpenEXR.sln /Build "Release|$($VSP_BUILD_ARCH)" >> $logFile
 
 

@@ -45,9 +45,9 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH CMAKE
 #------------------------------------------------------------------------------
-$src="http://www.cmake.org/files/v3.2/cmake-3.2.1-win32-x86.zip"
-$dest="$scriptPath\work\cmake-3.2.1-win32-x86.zip"
-download-check-unpack-file $src $dest "C0B0C090718B8543A9B377E5B7A27BEE" >> $logFile
+$src="http://www.cmake.org/files/v3.6/cmake-3.6.1-win32-x86.zip"
+$dest="$scriptPath\work\cmake-3.6.1-win32-x64.zip"
+download-check-unpack-file $src $dest "ebe01a6e5b9192f41ec8c82727e3dc8b" >> $logFile
 
 
 #------------------------------------------------------------------------------
@@ -63,12 +63,18 @@ download-check-unpack-file $src $dest "C0B0C090718B8543A9B377E5B7A27BEE" >> $log
 #------------------------------------------------------------------------------
 # STEP 7: INSTALL CMAKE
 #------------------------------------------------------------------------------
-cp "cmake-3.2.1-win32-x86\*"  "$VSP_INSTALL_PATH" -recurse -force
+cp "cmake-3.6.1-win32-x86\bin\cmake.exe"  "$VSP_BIN_PATH"
+cp "cmake-3.6.1-win32-x86\bin\ctest.exe"  "$VSP_BIN_PATH"
+cp "cmake-3.6.1-win32-x86\bin\msvcr120.dll"  "$VSP_BIN_PATH"
+cp "cmake-3.6.1-win32-x86\bin\msvcp120.dll"  "$VSP_BIN_PATH"
+cp -force -recurse "cmake-3.6.1-win32-x86\doc\cmake"  "$VSP_DOC_PATH"
+cp -force -recurse "cmake-3.6.1-win32-x86\share\aclocal"  "$VSP_SHARE_PATH"
+cp -force -recurse "cmake-3.6.1-win32-x86\share\cmake-3.6"  "$VSP_SHARE_PATH"
 
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP CMAKE AND FINISH
 #------------------------------------------------------------------------------
-rm "$VSP_INSTALL_PATH\cmake.org.html"
+rm "$VSP_INSTALL_PATH\cmake-gui.exe"
 cd ..
 rd work -force -recurse
 write-host "cmake has been installed successfully!" -Foreground Green

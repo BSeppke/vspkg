@@ -60,7 +60,15 @@ cp "zlib-1.2.7-patch\*" "zlib-1.2.7" -recurse -force
 #------------------------------------------------------------------------------
 # STEP 6: BUILD ZLIB
 #------------------------------------------------------------------------------
-cd  "zlib-1.2.7\contrib\vstudio\vc$($VSP_MSVC_VER)"
+if ($VSP_MSVC_VER -eq 10)
+{
+	cd  "zlib-1.2.7\contrib\vstudio\vc10"
+}
+else
+{
+	cd  "zlib-1.2.7\contrib\vstudio\vc11"
+	devenv zlibvc.sln /Upgrade >> $logFile
+}
 devenv zlibvc.sln /Build "ReleaseWithoutAsm|$($VSP_BUILD_ARCH)" >> $logFile
 
 
@@ -86,6 +94,11 @@ cp "..\..\..\zconf.h" "$($VSP_INCLUDE_PATH)" -force
 cp "$($VSP_LIB_PATH)\zlib.lib" "$($VSP_LIB_PATH)\zdll.lib" -force
 cp "$($VSP_LIB_PATH)\zlib.exp" "$($VSP_LIB_PATH)\zdll.exp" -force
 cp "$($VSP_LIB_PATH)\zlib.map" "$($VSP_LIB_PATH)\zdll.map" -force
+
+cp "$($VSP_BIN_PATH)\zlib.dll" "$($VSP_BIN_PATH)\zlibwapi.dll" -force
+cp "$($VSP_LIB_PATH)\zlib.lib" "$($VSP_LIB_PATH)\zlibwapi.lib" -force
+cp "$($VSP_LIB_PATH)\zlib.exp" "$($VSP_LIB_PATH)\zlibwapi.exp" -force
+cp "$($VSP_LIB_PATH)\zlib.map" "$($VSP_LIB_PATH)\zlibwapi.map" -force
 
 cp "$($VSP_LIB_PATH)\zlibstat.lib" "$($VSP_LIB_PATH)\libzlib.lib" -force
 cp "$($VSP_LIB_PATH)\zlib.lib"     "$($VSP_LIB_PATH)\z.lib" -force

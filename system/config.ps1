@@ -6,7 +6,7 @@ $VSP_BUILD_ARCH = "x64"
 
 #------- SET THE VERSION OF VISUAL STUDIO (10 = 2010) OR (11 = 2012)---------
 #$VSP_MSVC_VER = "10"
-$VSP_MSVC_VER = "11"
+$VSP_MSVC_VER = "14"
 
 
 #----------------------- SET THE BASE (INSTALLATION) PATH -------------------

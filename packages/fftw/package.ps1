@@ -60,7 +60,15 @@ cp "fftw-3.3.3-patch\*" "fftw-3.3.3" -recurse -force
 #------------------------------------------------------------------------------
 # STEP 6: BUILD FFTW
 #------------------------------------------------------------------------------
-cd  "fftw-3.3.3\vc$($VSP_MSVC_VER)"
+if ($VSP_MSVC_VER -eq 10)
+{
+	cd  "fftw-3.3.3\vc10"
+}
+else
+{
+	cd  "fftw-3.3.3\vc11"
+	devenv fftw-3.3-libs.sln /Upgrade >> $logFile
+}
 devenv fftw-3.3-libs.sln /Build "Release|$($VSP_BUILD_ARCH)" >> $logFile
 devenv fftw-3.3-libs.sln /Build "Static-Release|$($VSP_BUILD_ARCH)" >> $logFile
 
