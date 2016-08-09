@@ -61,17 +61,20 @@ cp "perl-5.24.0-patch\*" "perl-5.24.0" -recurse -force
 #------------------------------------------------------------------------------
 cd  "perl-5.24.0\win32"
 
-#The filename of the makefile is: "Makefile.msvc[10,11]-[Win32,x64]"
+#The filename of the makefile is: "Makefile.msvc[10,11,12,14]-[Win32,x64]"
 cp "Makefile.msvc$VSP_MSVC_VER-$VSP_BUILD_ARCH" "Makefile" >> $logFile
 
 if ($VSP_MSVC_VER -eq 14)
 {
-	cp config.vc14 config.vc -force
-	cp config_H.vc14 config_H.vc -force	
-	cp ..\perlio.c14 ..\perlio.c -force	
-	cp win32.c14 win32.c -force	
-	cp win32sck.c14 win32sck.c -force	
-	cp win32.h14 win32.h -force	
+	echo "ERROR: Cannot compile Perl using VS 2015"
+	return 1
+	#---Still not working...---------------
+	#cp config.vc14 config.vc -force
+	#cp config_H.vc14 config_H.vc -force	
+	#cp ..\perlio.c14 ..\perlio.c -force	
+	#cp win32.c14 win32.c -force	
+	#cp win32sck.c14 win32sck.c -force	
+	#cp win32.h14 win32.h -force	
 }
 
 nmake /NOLOGO  >> $logFile

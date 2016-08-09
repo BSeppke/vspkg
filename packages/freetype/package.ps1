@@ -60,7 +60,16 @@ cp "freetype-2.4.11-patch\*" "freetype-2.4.11\" -recurse -force
 #------------------------------------------------------------------------------
 # STEP 6: BUILD FREETYPE
 #------------------------------------------------------------------------------
-cd  "freetype-2.4.11\builds\win32\vc$VSP_MSVC_VER"
+if ($VSP_MSVC_VER -eq 10)
+{
+	cd "freetype-2.4.11\builds\win32\vc10"
+}
+else
+{
+	cd "freetype-2.4.11\builds\win32\vc11"
+	devenv freetype.sln /Upgrade  >> $logFile
+}
+
 devenv freetype.sln /Build "Release|$($VSP_BUILD_ARCH)" >> $logFile
 cd ..\..\..
 

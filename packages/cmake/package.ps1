@@ -74,7 +74,6 @@ cp -force -recurse "cmake-3.6.1-win32-x86\share\cmake-3.6"  "$VSP_SHARE_PATH"
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP CMAKE AND FINISH
 #------------------------------------------------------------------------------
-rm "$VSP_INSTALL_PATH\cmake-gui.exe"
 cd ..
 rd work -force -recurse
 write-host "cmake has been installed successfully!" -Foreground Green
