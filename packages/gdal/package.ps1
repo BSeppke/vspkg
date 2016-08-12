@@ -54,75 +54,56 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH GDAL
 #------------------------------------------------------------------------------
-$src="http://download.osgeo.org/gdal/gdal-1.9.2.tar.gz"
-$dest="$scriptPath\work\gdal-1.9.2.tar.gz"
-try
-{
-	download-check-unpack-file $src $dest "3F39DB89F4710269B3A8BF94178E07AA" >> $logFile
-}
-catch [system.exception]
-{
-	#we know this would happen, since "gdal-1.9.2.tar.gz" extracts to "gdal-1.9.2RC2.tar"
-}
-finally
-{
-	mv "gdal-1.9.2RC2.tar" "gdal-1.9.2.tar"
-	unpack-file "gdal-1.9.2.tar" >> $logFile
-}
+$src="http://download.osgeo.org/gdal/2.1.1/gdal-2.1.1.tar.xz"
+$dest="$scriptPath\work\gdal-2.1.1.tar.xz"
+download-check-unpack-file $src $dest "4276383314e8080ccab10d94a4a1f495" >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 5: APPLY PATCHES TO GDAL
 #------------------------------------------------------------------------------
-unpack-file "..\gdal-1.9.2-patch.zip" >> $logFile
-cp "gdal-1.9.2-patch\*" "gdal-1.9.2\" -recurse -force
+unpack-file "..\gdal-2.1.1-patch.zip" >> $logFile
+cp "gdal-2.1.1-patch\*" "gdal-2.1.1\" -recurse -force
 
 #------------------------------------------------------------------------------
 # STEP 6: BUILD AND INSTALL GDAL 
 #------------------------------------------------------------------------------
-cd "gdal-1.9.2"
+cd "gdal-2.1.1"
 if ($VSP_BUILD_ARCH -eq "x64")
 {
 	$Env:WIN64 = "YES"
 }
 
-nmake /NOLOGO /f Makefile.vc >> $logFile
+if($VSP_MSVC_VER = 10)
+{
+	$VSP_MSVC_COMPILE_VER = 1600
+}
+if($VSP_MSVC_VER = 11)
+{
+	$VSP_MSVC_COMPILE_VER = 1700
+}
+if($VSP_MSVC_VER = 12)
+{
+	$VSP_MSVC_COMPILE_VER = 1800
+}
+if($VSP_MSVC_VER = 14)
+{
+	$VSP_MSVC_COMPILE_VER = 1900
+}
+
+nmake /NOLOGO /f Makefile.vc MSVC_VER=$VSP_MSVC_COMPILE_VER >> $logFile
 
 cd swig
-
-$PATH_BAK = $Env:PATH
-$Env:PATH = "$VSP_INSTALL_PATH\swig;" + $Env:PATH
-
-$VS90COMNTOOLS_BAK = $Env:VS90COMNTOOLS
-
-if( $VSP_MSVC_VER -eq "10")
-{
-	$Env:VS90COMNTOOLS = $VS100COMNTOOLS
-}
-if( $VSP_MSVC_VER -eq "11")
-{
-	$Env:VS90COMNTOOLS = $VS110COMNTOOLS
-}
-nmake /NOLOGO /f makefile.vc python >> $logFile
+nmake /NOLOGO /f makefile.vc MSVC_VER=$VSP_MSVC_COMPILE_VER python >> $logFile
 
 cd python
 &"$VSP_PYTHON_PATH\python" "setup.py" "build" >> $logFile
 &"$VSP_PYTHON_PATH\python" "setup.py" "install" >> $logFile
 
 cd ..\..
+nmake /NOLOGO /f makefile.vc MSVC_VER=$VSP_MSVC_COMPILE_VER devinstall >> $logFile
+cp "gdal.lib" "$VSP_LIB_PATH\libgdal.lib" >> $logFile
+cp "$VSP_LIB_PATH\gdal_i.lib" "$VSP_LIB_PATH\gdal.lib" >> $logFile
 
-$Env:BINDIR = "$VSP_BIN_PATH"
-$Env:INCDIR = "$VSP_INCLUDE_PATH"
-$Env:LIBDIR = "$VSP_LIB_PATH"
-
-create-directory-if-necessary "$VSP_SHARE_PATH\gdal"
-create-directory-if-necessary "$VSP_DOC_PATH\gdal"
-$Env:DATADIR = "$VSP_SHARE_PATH\gdal"
-$Env:HTMLDIR = "$VSP_DOC_PATH\gdal"
-
-nmake /NOLOGO /f makefile.vc devinstall >> $logFile
-
-$Env:VS90COMNTOOLS = $VS90COMNTOOLS_BAK
-$Env:PATH = $PATH_BAK
 
 #------------------------------------------------------------------------------
 # STEP 7: CLEANUP GDAL AND FINISH

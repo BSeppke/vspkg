@@ -80,6 +80,14 @@ if( $VSP_MSVC_VER -eq "11")
 {
 	$Env:VS90COMNTOOLS = $VS110COMNTOOLS
 }
+if( $VSP_MSVC_VER -eq "12")
+{
+	$Env:VS90COMNTOOLS = $VS120COMNTOOLS
+}
+if( $VSP_MSVC_VER -eq "14")
+{
+	$Env:VS90COMNTOOLS = $VS140COMNTOOLS
+}
 
 &"$VSP_PYTHON_PATH\python" "setup.py" "install" >> $logFile
 

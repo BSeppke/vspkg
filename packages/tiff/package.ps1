@@ -53,24 +53,29 @@ download-check-unpack-file $src $dest "f5b485d750b2001255ed64224b98b857" >> $log
 
 
 #------------------------------------------------------------------------------
-# STEP 6: BUILD TIFF
+# STEP 6: BUILD TIFF & STEP 7: INSTALL TIFF (SHARED AND STATIC VERSIONS)
 #------------------------------------------------------------------------------
-cd  "tiff-4.0.6"
-md build >> $logFile
-cd build
+cd "tiff-4.0.6"
+cp   "build"   "build-static" -recurse -force
 
 $VSP_CMAKE_MSVC_GENERATOR = "Visual Studio " + $VSP_MSVC_VER
 if ($VSP_BUILD_ARCH -eq "x64")
 {
 	$VSP_CMAKE_MSVC_GENERATOR = $VSP_CMAKE_MSVC_GENERATOR + " Win64"
 }
-&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" ".." >> $logFile
 
+#Build static libs first and install them
+cd  "build-static"
+&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DBUILD_SHARED_LIBS=OFF" "-DZLIB_LIBRARY=$VSP_LIB_PATH/zlibstat.lib" "-DJPEG_LIBRARY=$VSP_LIB_PATH/libjpeg.lib" ".." >> $logFile
 devenv tiff.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
+devenv tiff.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
+mv "$VSP_LIB_PATH\tiff.lib" "$VSP_LIB_PATH\libtiff.lib" -force
+mv "$VSP_LIB_PATH\tiffxx.lib" "$VSP_LIB_PATH\libtiffxx.lib" -force
 
-#------------------------------------------------------------------------------
-# STEP 7: INSTALL TIFF
-#------------------------------------------------------------------------------
+#Then build dynamic libs and install them
+cd "..\build"
+&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" ".." >> $logFile
+devenv tiff.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 devenv tiff.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 
 

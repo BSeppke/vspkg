@@ -33,6 +33,17 @@ if(test-path($logFile))
 # STEP 3: INITIALIZE PERL
 #------------------------------------------------------------------------------
 cd $scriptPath
+
+#does not work for vc14 - so we just copy the appropriate files from vc12
+if ($VSP_MSVC_VER -eq 14)
+{
+	unpack-file "perl-vc12-$VSP_BUILD_ARCH.zip" >> $logFile
+	cp perl "$VSP_INSTALL_PATH" -recurse -force
+	rd perl -force -recurse
+	write-host "perl has been installed as VS2013 version, since VS2015 compilation is not possible yet!" -Foreground Green
+	return 
+}
+
 if(test-path("$scriptPath\work"))
 {
 	rd work -force -recurse
@@ -55,6 +66,16 @@ download-check-unpack-file $src $dest "c5bf7f3285439a2d3b6a488e14503701" >> $log
 unpack-file "..\perl-5.24.0-patch.zip" >> $logFile
 cp "perl-5.24.0-patch\*" "perl-5.24.0" -recurse -force
 
+if ($VSP_MSVC_VER -eq 14)
+{
+	#---Still not working...---------------
+	#cp perl-5.24.0\win32\config.vc14   perl-5.24.0\win32\config.vc -force
+	#cp perl-5.24.0\win32\config_H.vc14 perl-5.24.0\win32\config_H.vc -force	
+	#cp perl-5.24.0\perlio.c14          perl-5.24.0\perlio.c -force	
+	#cp perl-5.24.0\win32\win32.c14     perl-5.24.0\win32\win32.c -force	
+	#cp perl-5.24.0\win32\win32sck.c14  perl-5.24.0\win32\win32sck.c -force	
+	#cp perl-5.24.0\win32\win32.h14     perl-5.24.0\win32\win32.h -force	
+}
 
 #------------------------------------------------------------------------------
 # STEP 6: BUILD PERL
@@ -63,19 +84,6 @@ cd  "perl-5.24.0\win32"
 
 #The filename of the makefile is: "Makefile.msvc[10,11,12,14]-[Win32,x64]"
 cp "Makefile.msvc$VSP_MSVC_VER-$VSP_BUILD_ARCH" "Makefile" >> $logFile
-
-if ($VSP_MSVC_VER -eq 14)
-{
-	echo "ERROR: Cannot compile Perl using VS 2015"
-	return 1
-	#---Still not working...---------------
-	#cp config.vc14 config.vc -force
-	#cp config_H.vc14 config_H.vc -force	
-	#cp ..\perlio.c14 ..\perlio.c -force	
-	#cp win32.c14 win32.c -force	
-	#cp win32sck.c14 win32sck.c -force	
-	#cp win32.h14 win32.h -force	
-}
 
 nmake /NOLOGO  >> $logFile
 

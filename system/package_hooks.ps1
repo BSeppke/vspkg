@@ -4,6 +4,10 @@ $VSP_PERL_PATH     = $VSP_INSTALL_PATH + "\perl"
 $VSP_PERL_UNIXPATH = $VSP_INSTALL_UNIXPATH + "/perl"
 add-to-envVar-if-necessary "$VSP_PERL_PATH\bin" "PATH"
 
+$VSP_SWIG_PATH     = $VSP_INSTALL_PATH + "\swig"
+$VSP_SWIG_UNIXPATH = $VSP_INSTALL_UNIXPATH + "/swig"
+add-to-envVar-if-necessary "$VSP_SWIG_PATH" "PATH"
+
 $VSP_PYTHON_PATH     = $VSP_INSTALL_PATH + "\python"
 $VSP_PYTHON_UNIXPATH = $VSP_INSTALL_UNIXPATH + "/python"
 $Env:PYTHONHOME      = $VSP_PYTHON_PATH

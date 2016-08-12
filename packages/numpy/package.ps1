@@ -29,45 +29,30 @@ if(test-path($logFile))
 # STEP 2: INSTALL DEPENDENCIES
 #------------------------------------------------------------------------------
 ..\python\package.ps1
+..\setuptools\package.ps1
 
 #------------------------------------------------------------------------------
 # STEP 3: INITIALIZE NUMPY
 #------------------------------------------------------------------------------
 cd $scriptPath
-if(test-path("$scriptPath\work"))
-{
-	rd work -force -recurse
-}
-md work >> $logFile
-cd work
-
 
 #------------------------------------------------------------------------------
 # STEP 4: FETCH NUMPY
 #------------------------------------------------------------------------------
-$src="http://downloads.sourceforge.net/project/numpy/NumPy/1.9.2/numpy-1.9.2.tar.gz"
-$dest="$scriptPath\work\numpy-1.9.2.tar.gz"
-
-download-check-unpack-file $src $dest "A1ED53432DBCD256398898D35BC8E645" >> $logFile
-mv "dist\numpy-1.9.2.tar" ".\numpy-1.9.2.tar"
-rd "dist" -force
-unpack-file "numpy-1.9.2.tar" >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 5: APPLY PATCHES TO NUMPY
 #------------------------------------------------------------------------------
 
-
 #------------------------------------------------------------------------------
 # STEP 6: BUILD AND INSTALL NUMPY 
 #------------------------------------------------------------------------------
-cd "numpy-1.9.2"
-&"$VSP_PYTHON_PATH\python" "setup.py" "build" "-c" "msvc" "install" >> $logFile
+&"easy_install.exe" "cython" >> $logFile
+&"easy_install.exe" "nose" >> $logFile
+&"easy_install.exe" "numpy" >> $logFile
 
 
 #------------------------------------------------------------------------------
 # STEP 7: CLEANUP NUMPY AND FINISH
 #------------------------------------------------------------------------------
-cd ..\..
-rd work -force -recurse
 write-host "numpy has been installed successfully!" -Foreground Green
