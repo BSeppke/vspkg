@@ -84,6 +84,8 @@ $VSP_INCLUDE_UNIXPATH = $VSP_INSTALL_UNIXPATH + "/include"
 $VSP_DOC_UNIXPATH = $VSP_INSTALL_UNIXPATH + "/doc"
 $VSP_SHARE_UNIXPATH= $VSP_INSTALL_UNIXPATH + "/share"
 
+$VSP_GIT_PATH =  $Env:LocalAppData + "\Programs\Git\bin"
+
 #-------------------- Create paths if necessary ----------------------------
 #-------------------- and install 3rd-party tools --------------------------
 #-- These are needed for downloading and installing other packages    ---------
@@ -101,6 +103,8 @@ set-item "Env:\VSP_INSTALL_PATH" $VSP_INSTALL_PATH
 add-to-envVar-if-necessary $VSP_LIB_PATH "LIB"
 add-to-envVar-if-necessary $VSP_INCLUDE_PATH "INCLUDE"
 add-to-envVar-if-necessary $VSP_BIN_PATH "PATH"
+add-to-envVar-if-necessary $VSP_BIN_PATH "PATH"
+add-to-envVar-if-necessary $VSP_GIT_PATH "PATH"
 
 #----------------- ADD ADDITIONAL PATHS FOR 3RD-PARTY APPS/LIBS--------------
 $packageHooksScript  = join-path $VSP_SYSTEM_PATH "package_hooks.ps1"
