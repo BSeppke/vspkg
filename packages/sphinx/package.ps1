@@ -52,6 +52,4 @@ cd $scriptPath
 #------------------------------------------------------------------------------
 # STEP 7: CLEANUP SPHINX AND FINISH
 #------------------------------------------------------------------------------
-cd ..\..
-rd work -force -recurse
 write-host "sphinx has been installed successfully!" -Foreground Green
