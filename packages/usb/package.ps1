@@ -45,7 +45,7 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH USB
 #------------------------------------------------------------------------------
-check-unpack-file "$scriptPath\libusb-patched.zip" "AD2CD20B1BC02BD3F6E29319867B7975" >> $logFile
+check-unpack-file "$scriptPath\libusb-patched.zip" "B83B5E8E5C51B284819171D128DE82D1" >> $logFile
 
 
 #------------------------------------------------------------------------------
@@ -57,8 +57,9 @@ check-unpack-file "$scriptPath\libusb-patched.zip" "AD2CD20B1BC02BD3F6E29319867B
 # STEP 6: BUILD USB
 #------------------------------------------------------------------------------
 cd  "libusb-patched"
+devenv "msvc/libusb_2012.sln" /Upgrade >> $logFile
 devenv "msvc/libusb_2012.sln" /Build "Release|$($VSP_BUILD_ARCH)"  >> $logFile
-devenv "msvc/libusb_dll_2012.vcxproj" /Build "Release|$($VSP_BUILD_ARCH)" >> $logFile
+devenv "msvc/libusb_2012.sln" /Project "libusb-1.0 (dll)" /Build "Release|$($VSP_BUILD_ARCH)"  >> $logFile
 
 
 #------------------------------------------------------------------------------

@@ -144,7 +144,7 @@ function check-unpack-file
 	}
 	else
 	{
-		throw "Checksums does not match!"
+		throw "Checksums does not match! $checksum != $md5"
 	}
 }
 
