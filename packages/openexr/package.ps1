@@ -46,83 +46,43 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH OPENEXR
 #------------------------------------------------------------------------------
-$src="http://mirror.lihnidos.org/GNU/savannah/openexr/openexr-1.7.0.tar.gz"
+$src="http://download.savannah.nongnu.org/releases/openexr/openexr-2.2.0.tar.gz"
 
-$dest="$scriptPath\work\openexr-1.7.0.tar.gz"
-download-check-unpack-file $src $dest "27113284F7D26A58F853C346E0851D7A" >> $logFile
+$dest="$scriptPath\work\openexr-2.2.0.tar.gz"
+download-check-unpack-file $src $dest "B64E931C82AA3790329C21418373DB4E" >> $logFile
 
 
 #------------------------------------------------------------------------------
 # STEP 5: APPLY PATCHES TO OPENEXR
 #------------------------------------------------------------------------------
-unpack-file "..\openexr-1.7.0-patch.zip" >> $logFile
-cp "openexr-1.7.0-patch\*" "openexr-1.7.0" -recurse -force
 
-create-directory-if-necessary  "..\Deploy\"
-create-directory-if-necessary  "..\Deploy\include\"
-create-directory-if-necessary  "..\Deploy\bin\"
-create-directory-if-necessary  "..\Deploy\bin\$VSP_BUILD_ARCH\"
-create-directory-if-necessary  "..\Deploy\bin\$VSP_BUILD_ARCH\Release\"
-create-directory-if-necessary  "..\Deploy\lib\"
-create-directory-if-necessary  "..\Deploy\lib\$VSP_BUILD_ARCH\"
-create-directory-if-necessary  "..\Deploy\lib\$VSP_BUILD_ARCH\Release\"
-
-cp "$VSP_INCLUDE_PATH\half*.h"  "..\Deploy\include\" -recurse -force
-cp "$VSP_INCLUDE_PATH\Iex*.h"   "..\Deploy\include\" -recurse -force
-cp "$VSP_INCLUDE_PATH\Ilm*.h"   "..\Deploy\include\" -recurse -force
-cp "$VSP_INCLUDE_PATH\Imath*.h" "..\Deploy\include\" -recurse -force
-
-cp "$VSP_BIN_PATH\createDLL.exe" "..\Deploy\bin\$VSP_BUILD_ARCH\Release\" -recurse -force
-
-cp "$VSP_BIN_PATH\Half.dll"      "..\Deploy\bin\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_BIN_PATH\Iex.dll"       "..\Deploy\bin\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_BIN_PATH\IlmThread.dll" "..\Deploy\bin\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_BIN_PATH\Imath.dll"     "..\Deploy\bin\$VSP_BUILD_ARCH\Release\" -recurse -force
-
-cp "$VSP_LIB_PATH\Half.*"      "..\Deploy\lib\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_LIB_PATH\Iex.*"       "..\Deploy\lib\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_LIB_PATH\IlmThread.*" "..\Deploy\lib\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_LIB_PATH\Imath.*"     "..\Deploy\lib\$VSP_BUILD_ARCH\Release\" -recurse -force
-
-cp "$VSP_BIN_PATH\zlibwapi.dll" "..\Deploy\bin\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_LIB_PATH\zlibwapi.lib" "..\Deploy\lib\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_LIB_PATH\zlibwapi.exp" "..\Deploy\lib\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_LIB_PATH\zlibwapi.map" "..\Deploy\lib\$VSP_BUILD_ARCH\Release\" -recurse -force
-cp "$VSP_INCLUDE_PATH\zlib.h"   "..\Deploy\include\" -recurse -force
-cp "$VSP_INCLUDE_PATH\zconf.h"  "..\Deploy\include\" -recurse -force
 
 #------------------------------------------------------------------------------
 # STEP 6: BUILD OPENEXR
 #------------------------------------------------------------------------------
-if ($VSP_MSVC_VER -eq 10)
-{
-	cd  "openexr-1.7.0\vc\vc10\OpenEXR"
-}
-else
-{
-	cd  "openexr-1.7.0\vc\vc11\OpenEXR"
-	devenv OpenEXR.sln /Upgrade >> $logFile
-}
-devenv OpenEXR.sln /Build "Release|$($VSP_BUILD_ARCH)" >> $logFile
+cd openexr-2.2.0
 
+md build >> $logFile
+cd build
+
+$VSP_CMAKE_MSVC_GENERATOR = "Visual Studio " + $VSP_MSVC_VER
+if ($VSP_BUILD_ARCH -eq "x64")
+{
+	$VSP_CMAKE_MSVC_GENERATOR = $VSP_CMAKE_MSVC_GENERATOR + " Win64"
+}
+&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DILMBASE_PACKAGE_PREFIX=$VSP_INSTALL_PATH" ".." >> $logFile
+
+devenv OpenEXR.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 7: INSTALL OPENEXR
 #------------------------------------------------------------------------------
-cd ..\..\..\..\..
-
-cp "Deploy\bin\$($VSP_BUILD_ARCH)\Release\*.exe"  "$($VSP_BIN_PATH)" -force
-
-cp "Deploy\bin\$($VSP_BUILD_ARCH)\Release\*.dll"  "$($VSP_BIN_PATH)" -force
-cp "Deploy\lib\$($VSP_BUILD_ARCH)\Release\*.lib"  "$($VSP_LIB_PATH)" -force
-cp "Deploy\lib\$($VSP_BUILD_ARCH)\Release\*.exp"  "$($VSP_LIB_PATH)" -force
-
-cp "Deploy\include\*.h" "$($VSP_INCLUDE_PATH)" -force
-
+devenv OpenEXR.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
+cd ..\..\..
 
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP OPENEXR AND FINISH
 #------------------------------------------------------------------------------
-rd Deploy -force -recurse
+mv "$VSP_LIB_PATH\*.dll" "$VSP_BIN_PATH" -force >> $logFile
 rd work -force -recurse
 write-host "openexr has been installed successfully!" -Foreground Green

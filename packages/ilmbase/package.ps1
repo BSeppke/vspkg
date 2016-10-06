@@ -45,51 +45,44 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH ILMBASE
 #------------------------------------------------------------------------------
-$src="http://mirror.lihnidos.org/GNU/savannah/openexr/ilmbase-1.0.2.tar.gz"
+$src="http://download.savannah.nongnu.org/releases/openexr/ilmbase-2.2.0.tar.gz"
 
-$dest="$scriptPath\work\ilmbase-1.0.2.tar.gz"
-download-check-unpack-file $src $dest "26C133EE8CA48E1196FBFB3FFE292AB4" >> $logFile
+$dest="$scriptPath\work\ilmbase-2.2.0.tar.gz"
+download-check-unpack-file $src $dest "B540DB502C5FA42078249F43D18A4652" >> $logFile
 
 
 #------------------------------------------------------------------------------
 # STEP 5: APPLY PATCHES TO ILMBASE
 #------------------------------------------------------------------------------
-unpack-file "..\ilmbase-1.0.2-patch.zip" >> $logFile
-cp "ilmbase-1.0.2-patch\*" "ilmbase-1.0.2" -recurse -force
-
 
 #------------------------------------------------------------------------------
 # STEP 6: BUILD ILMBASE
 #------------------------------------------------------------------------------
-if ($VSP_MSVC_VER -eq 10)
-{
-	cd  "ilmbase-1.0.2\vc\vc10\IlmBase"
-}
-else
-{
-	cd  "ilmbase-1.0.2\vc\vc11\IlmBase"
-	devenv IlmBase.sln /Upgrade >> $logFile
-}
-devenv IlmBase.sln /Build "Release|$($VSP_BUILD_ARCH)" >> $logFile
+cd ilmbase-2.2.0
 
+md build >> $logFile
+cd build
+
+$VSP_CMAKE_MSVC_GENERATOR = "Visual Studio " + $VSP_MSVC_VER
+if ($VSP_BUILD_ARCH -eq "x64")
+{
+	$VSP_CMAKE_MSVC_GENERATOR = $VSP_CMAKE_MSVC_GENERATOR + " Win64"
+}
+&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-Wno-dev" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" ".." >> $logFile
+
+devenv IlmBase.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 7: INSTALL ILMBASE
 #------------------------------------------------------------------------------
-cd ..\..\..\..\..
-
-cp "Deploy\bin\$VSP_BUILD_ARCH\Release\*.exe"  "$VSP_BIN_PATH" -force
-
-cp "Deploy\bin\$VSP_BUILD_ARCH\Release\*.dll"  "$VSP_BIN_PATH" -force
-cp "Deploy\lib\$VSP_BUILD_ARCH\Release\*.lib"  "$VSP_LIB_PATH" -force
-cp "Deploy\lib\$VSP_BUILD_ARCH\Release\*.exp"  "$VSP_LIB_PATH" -force
-
-cp "Deploy\include\*.h" "$($VSP_INCLUDE_PATH)" -force
+devenv IlmBase.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
+cd ..\..\..
 
 
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP ILMBASE AND FINISH
 #------------------------------------------------------------------------------
-rd Deploy -force -recurse
+mv "$VSP_LIB_PATH\*.dll" "$VSP_BIN_PATH" -force >> $logFile
+
 rd work -force -recurse
 write-host "ilmbase has been installed successfully!" -Foreground Green
