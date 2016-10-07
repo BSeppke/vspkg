@@ -62,6 +62,16 @@ $VSP_SYSTEM_UNIXPATH  = "$VSP_BASE_UNIXPATH" + "/system"
 $VSP_INSTALL_UNIXPATH = "$VSP_BASE_UNIXPATH" + "/vc" + $VSP_MSVC_VER + "/" + $VSP_BUILD_ARCH
 $VSP_INSTALL_REGISTRY_UNIXPATH = "$VSP_INSTALL_UNIXPATH" +"/installed_packages"
 
+$VSP_ENV_BATCHFILE =  "$VSP_INSTALL_PATH" + "\environment.bat"
+
+
+# Create Startup Batch file for current config:
+if (Test-Path $VSP_ENV_BATCHFILE)
+{
+	rm $VSP_ENV_BATCHFILE
+}
+
+
 
 #-------------- SET AND CALL THE CORRESPONDING VC SETTINGS ------------------
 $VSP_MSVC_ARCH_FLAGS = "x86"
@@ -70,6 +80,7 @@ if ($VSP_BUILD_ARCH -eq "x64")
 	$VSP_MSVC_ARCH_FLAGS = "amd64"
 }
 add-vs-variables-if-necessary $VSP_MSVC_VER $VSP_MSVC_ARCH_FLAGS
+Add-Content $VSP_ENV_BATCHFILE "@echo off"
 
 #------------------ DEFINE CURRENT DEV DIRECTORIES  -----------------------
 $VSP_BIN_PATH = $VSP_INSTALL_PATH + "\bin"
@@ -101,14 +112,20 @@ create-directory-if-necessary $VSP_SHARE_PATH
 #------------------ ADD VSP DIRECTORIES TO ENV -----------------------
 set-item "Env:\VSP_INSTALL_PATH" $VSP_INSTALL_PATH 
 add-to-envVar-if-necessary $VSP_LIB_PATH "LIB"
+Add-Content $VSP_ENV_BATCHFILE "SET LIB=$VSP_LIB_PATH;%LIB%"
+
 add-to-envVar-if-necessary $VSP_INCLUDE_PATH "INCLUDE"
-add-to-envVar-if-necessary $VSP_BIN_PATH "PATH"
+Add-Content $VSP_ENV_BATCHFILE "SET INCLUDE=$VSP_INCLUDE_PATH;%INCLUDE%"
+
 add-to-envVar-if-necessary $VSP_BIN_PATH "PATH"
 add-to-envVar-if-necessary $VSP_GIT_PATH "PATH"
+Add-Content $VSP_ENV_BATCHFILE "SET PATH=$VSP_BIN_PATH;$VSP_GIT_PATH;%PATH%"
 
 #----------------- ADD ADDITIONAL PATHS FOR 3RD-PARTY APPS/LIBS--------------
 $packageHooksScript  = join-path $VSP_SYSTEM_PATH "package_hooks.ps1"
 . $packageHooksScript
+
+Add-Content $VSP_ENV_BATCHFILE "cmd /k `"C:\Program Files (x86)\Microsoft Visual Studio $VSP_MSVC_VER.0\VC\vcvarsall.bat`" $VSP_MSVC_ARCH_FLAGS"
 
 #------------ DISPLAY CONFIGURATION STATUS FOR MANUAL CHECKUP ----------------
 if(-not $silent)
