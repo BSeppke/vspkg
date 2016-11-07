@@ -31,6 +31,8 @@ function create-directory-if-necessary
 function download-file { 
 	param($source, $dest)
 	
+	[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+	
 	$webclient = New-Object System.Net.WebClient
 	$webclient.DownloadFile($source, $dest)
 }
