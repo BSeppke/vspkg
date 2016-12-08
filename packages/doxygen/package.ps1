@@ -45,17 +45,22 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH DOXYGEN
 #------------------------------------------------------------------------------
-$src="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.3.1.windows.bin.zip"
-$dest="$scriptPath\work\doxygen-1.8.3.1.windows.bin.zip"
-download-check-unpack-file $src $dest "D0BCCD73BC040B8A000F438CE4A3E5FC" >> $logFile
+$src="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.12.windows.bin.zip"
+$hash="392CEE28459A276C847A325D7DEF18B0"
+
+if ($VSP_BUILD_ARCH -eq "x64")
+{
+	$src="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.12.windows.x64.bin.zip"
+	$hash="84433B6166C320BFC1B9CE2BF0E5B897"
+}
+$dest="$scriptPath\work\doxygen-1.8.12.windows.bin.zip"
+download-check-unpack-file $src $dest $hash >> $logFile
 
 
 #------------------------------------------------------------------------------
 # STEP 5: APPLY PATCHES TO DOXYGEN
 #------------------------------------------------------------------------------
-md "doxygen-1.8.3.1.windows.bin" >> $logFile
-mv "*.exe" "doxygen-1.8.3.1.windows.bin\"
-mv "*.cgi" "doxygen-1.8.3.1.windows.bin\"
+
 
 
 #------------------------------------------------------------------------------
@@ -66,13 +71,13 @@ mv "*.cgi" "doxygen-1.8.3.1.windows.bin\"
 #------------------------------------------------------------------------------
 # STEP 7: INSTALL DOXYGEN
 #------------------------------------------------------------------------------
-cd "doxygen-1.8.3.1.windows.bin"
-cp "*"  "$VSP_BIN_PATH" -force
+cp "*.exe"  "$VSP_BIN_PATH" -force
+cp "*.dll"  "$VSP_BIN_PATH" -force
 
 
 #------------------------------------------------------------------------------
 # STEP 8: CLEANUP DOXYGEN AND FINISH
 #------------------------------------------------------------------------------
-cd ..\..
+cd ..
 rd work -force -recurse
 write-host "doxygen has been installed successfully!" -Foreground Green
