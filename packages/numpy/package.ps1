@@ -29,7 +29,8 @@ if(test-path($logFile))
 # STEP 2: INSTALL DEPENDENCIES
 #------------------------------------------------------------------------------
 ..\python\package.ps1
-..\setuptools\package.ps1
+..\pip\package.ps1
+..\nose\package.ps1
 
 #------------------------------------------------------------------------------
 # STEP 3: INITIALIZE NUMPY
@@ -47,9 +48,8 @@ cd $scriptPath
 #------------------------------------------------------------------------------
 # STEP 6: BUILD AND INSTALL NUMPY 
 #------------------------------------------------------------------------------
-&"easy_install.exe" "cython" >> $logFile
-&"easy_install.exe" "nose" >> $logFile
-&"easy_install.exe" "numpy" >> $logFile
+&"pip.exe" install cython >> $logFile
+&"pip.exe" install numpy >> $logFile
 
 
 #------------------------------------------------------------------------------

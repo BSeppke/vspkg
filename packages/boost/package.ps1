@@ -45,9 +45,9 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH BOOST
 #------------------------------------------------------------------------------
-$src="http://downloads.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.zip"
-$dest="$scriptPath\work\boost_1_59_0.zip"
-download-check-unpack-file $src $dest "08D29A2D85DB3EBC8C6FDFA3A1F2B83C" >> $logFile
+$src="https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.zip"
+$dest="$scriptPath\work\boost_1_78_0.zip"
+download-check-unpack-file $src $dest "E193E5089060ED6CE5145C8EB05E67E3" >> $logFile
 
 
 #------------------------------------------------------------------------------
@@ -58,20 +58,18 @@ download-check-unpack-file $src $dest "08D29A2D85DB3EBC8C6FDFA3A1F2B83C" >> $log
 #------------------------------------------------------------------------------
 # STEP 6: BUILD BOOST 
 #------------------------------------------------------------------------------
-cd "boost_1_59_0\tools\build\"
+cd "boost_1_78_0"
 .\bootstrap.bat >> $logFile
-.\b2 "--prefix=$VSP_INSTALL_PATH"  >> $logFile
-cd ..\..
 
-$64bitflags = ""
+$bitflags = "32"
 if ($VSP_BUILD_ARCH -eq "x64")
 {
-	$64bitflags = "address-model=64"
+	$bitflags = "64"
 }
 #Build static...
-b2 "toolset=msvc-$VSP_MSVC_VER.0" "architecture=x86" "variant=release" "threading=multi" "link=static" "runtime-link=static" $64bitflags "stage" >> $logFile
+.\b2 "architecture=x86" "variant=release" "threading=multi" "link=static" "runtime-link=static" "address-model=$bitflags" "stage" >> $logFile
 #...and dynamic libs:
-b2 "toolset=msvc-$VSP_MSVC_VER.0" "architecture=x86" "variant=release" "threading=multi" "link=shared" "runtime-link=shared" $64bitflags "stage" >> $logFile
+.\b2 "architecture=x86" "variant=release" "threading=multi" "link=shared" "runtime-link=shared" "address-model=$bitflags" "stage" >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 7: INSTALL BOOST 

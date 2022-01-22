@@ -45,7 +45,7 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH SZIP
 #------------------------------------------------------------------------------
-$src="http://www.hdfgroup.org/ftp/lib-external/szip/2.1/src/szip-2.1.tar.gz"
+$src="https://support.hdfgroup.org/ftp/lib-external/szip/previous/2.1/src/szip-2.1.tar.gz"
 $dest="$scriptPath\work\szip-2.1.tar.gz"
 download-check-unpack-file $src $dest "902F831BCEFB69C6B635374424ACBEAD" >> $logFile
 

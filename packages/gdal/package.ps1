@@ -36,7 +36,7 @@ if(test-path($logFile))
 ..\openexr\package.ps1
 ..\tiff\package.ps1
 ..\numpy\package.ps1
-..\setuptools\package.ps1
+..\pip\package.ps1
 ..\swig\package.ps1
 
 #------------------------------------------------------------------------------

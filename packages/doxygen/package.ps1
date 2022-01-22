@@ -45,12 +45,12 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH DOXYGEN
 #------------------------------------------------------------------------------
-$src="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.12.windows.bin.zip"
+$src="https://master.dl.sourceforge.net/project/doxygen/rel-1.8.12/doxygen-1.8.12.windows.bin.zip?viasf=1"
 $hash="392CEE28459A276C847A325D7DEF18B0"
 
 if ($VSP_BUILD_ARCH -eq "x64")
 {
-	$src="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.12.windows.x64.bin.zip"
+	$src="https://master.dl.sourceforge.net/project/doxygen/rel-1.8.12/doxygen-1.8.12.windows.x64.bin.zip?viasf=1"
 	$hash="84433B6166C320BFC1B9CE2BF0E5B897"
 }
 $dest="$scriptPath\work\doxygen-1.8.12.windows.bin.zip"

@@ -38,7 +38,7 @@ function add-vs-variables-if-necessary
 	
 	if(-not $env:VCINSTALLDIR)
 	{
-		pushd "C:\Program Files (x86)\Microsoft Visual Studio $($version).0\VC"
+		pushd "$VSP_VCVARS_PATH"
 		cmd /c "vcvarsall.bat $($architecture)&set" |
 		foreach {
 			if ($_ -match "=") {
@@ -125,7 +125,7 @@ Add-Content $VSP_ENV_BATCHFILE "SET PATH=$VSP_BIN_PATH;$VSP_GIT_PATH;%PATH%"
 $packageHooksScript  = join-path $VSP_SYSTEM_PATH "package_hooks.ps1"
 . $packageHooksScript
 
-Add-Content $VSP_ENV_BATCHFILE "cmd /k `"C:\Program Files (x86)\Microsoft Visual Studio $VSP_MSVC_VER.0\VC\vcvarsall.bat`" $VSP_MSVC_ARCH_FLAGS"
+Add-Content $VSP_ENV_BATCHFILE "cmd /k `"$VSP_VCVARS_PATH`" $VSP_MSVC_ARCH_FLAGS"
 
 #------------ DISPLAY CONFIGURATION STATUS FOR MANUAL CHECKUP ----------------
 if(-not $silent)

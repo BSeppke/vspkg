@@ -32,14 +32,14 @@ if(test-path($logFile))
 ..\ipython\package.ps1
 ..\matplotlib\package.ps1
 ..\pyzmq\package.ps1
-easy_install rope >> $logFile
-easy_install pyflakes >> $logFile
-easy_install pygments >> $logFile
-easy_install pylint >> $logFile
-easy_install pep8 >> $logFile
-easy_install psutil >> $logFile
-easy_install markupsafe >> $logFile
-easy_install pytz >> $logFile
+pip rope >> $logFile
+pip pyflakes >> $logFile
+pip pygments >> $logFile
+pip pylint >> $logFile
+pip pep8 >> $logFile
+pip psutil >> $logFile
+pip markupsafe >> $logFile
+pip pytz >> $logFile
 
 #------------------------------------------------------------------------------
 # STEP 3: INITIALIZE SPYDER

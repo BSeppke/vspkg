@@ -82,7 +82,7 @@ cp "$VSP_BIN_PATH/libpng16.dll" "$VSP_BIN_PATH/libpng.dll"
 cp "$VSP_LIB_PATH/libpng16_static.lib" "$VSP_LIB_PATH/libpng.lib"
 cp "$VSP_LIB_PATH/libpng16.lib" "$VSP_LIB_PATH/png.lib"
 
-mv "$VSP_LIB_PATH/libpng/*"  "$VSP_SHARE_PATH/cmake-3.6/Modules"
+mv "$VSP_LIB_PATH/libpng/*"  "$VSP_SHARE_PATH/cmake-3.22/Modules"
 rd "$VSP_LIB_PATH/libpng/" -recurse
 
 #------------------------------------------------------------------------------

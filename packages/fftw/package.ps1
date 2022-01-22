@@ -45,7 +45,7 @@ cd work
 #------------------------------------------------------------------------------
 # STEP 4: FETCH FFTW
 #------------------------------------------------------------------------------
-$src="http://www.fftw.org/fftw-3.3.3.tar.gz"
+$src="https://fftw.org/pub/fftw/fftw-3.3.3.tar.gz"
 $dest="$scriptPath\work\fftw-3.3.3.tar.gz"
 download-check-unpack-file $src $dest "0A05CA9C7B3BFDDC8278E7C40791A1C2" >> $logFile
 

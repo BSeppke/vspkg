@@ -4,9 +4,9 @@ $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 ."..\..\system\environment.ps1" -silent
 
 #------------------------------------------------------------------------------
-# STEP 1: CHECK, IF PYQT5 IS ALREADY INSTALLED
+# STEP 1: CHECK, IF PIP IS ALREADY INSTALLED
 #------------------------------------------------------------------------------
-$logFile="$($VSP_INSTALL_REGISTRY_PATH)\pyqt5"
+$logFile="$($VSP_INSTALL_REGISTRY_PATH)\pip"
 if(test-path($logFile))
 { 
 	if($force)
@@ -17,7 +17,7 @@ if(test-path($logFile))
 	{
 		if(-not $silent)
 		{
-			write-host "pyqt5 has already been installed!" -Foreground Yellow
+			write-host "Pip has already been installed!" -Foreground Yellow
 			write-host "If you want to force installation, call this script again with the '-force' flag!" -Foreground Yellow
 		}
 		return
@@ -28,31 +28,31 @@ if(test-path($logFile))
 #------------------------------------------------------------------------------
 # STEP 2: INSTALL DEPENDENCIES
 #------------------------------------------------------------------------------
-..\pip\package.ps1
+..\python\package.ps1
 
 #------------------------------------------------------------------------------
-# STEP 3: INITIALIZE PYQT5
-#------------------------------------------------------------------------------
-cd $scriptPath
-
-#------------------------------------------------------------------------------
-# STEP 4: FETCH PYQT5
+# STEP 3: INITIALIZE PIP
 #------------------------------------------------------------------------------
 
-#------------------------------------------------------------------------------
-# STEP 5: APPLY PATCHES TO PYQT5
-#------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
-# STEP 6: BUILD PYQT5 
+# STEP 4: FETCH PIP
 #------------------------------------------------------------------------------
 
-#------------------------------------------------------------------------------
-# STEP 7: INSTALL PYQT5 
-#------------------------------------------------------------------------------
-&"pip.exe" "install" "pyqt5" "--upgrade" >> $logFile
 
 #------------------------------------------------------------------------------
-# STEP 8: CLEANUP PYQT5 AND FINISH
+# STEP 5: APPLY PATCHES TO PIP
 #------------------------------------------------------------------------------
-write-host "pyqt5 has been installed successfully!" -Foreground Green
+
+
+#------------------------------------------------------------------------------
+# STEP 6: BUILD AND INSTALL PIP 
+#------------------------------------------------------------------------------
+python -m ensurepip --upgrade  >> $logFile
+python -m pip install --upgrade pip >> $logFile
+cp "$VSP_PYTHON_PATH\Scripts\pip3.exe" "$VSP_PYTHON_PATH\Scripts\pip.exe"  >> $logFile
+
+#------------------------------------------------------------------------------
+# STEP 7: CLEANUP PIP AND FINISH
+#------------------------------------------------------------------------------
+write-host "Pip has been installed successfully!" -Foreground Green
