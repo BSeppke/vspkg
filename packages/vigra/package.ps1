@@ -1,4 +1,4 @@
-param([switch]$force, [switch]$silent)
+param([switch]$force, [switch]$silent, [switch]$pureimpexlib)
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 ."..\..\system\tools.ps1" -silent 
 ."..\..\system\environment.ps1" -silent
@@ -82,8 +82,14 @@ if ($VSP_BUILD_ARCH -eq "x64")
 {
 	$VSP_CMAKE_MSVC_GENERATOR = $VSP_CMAKE_MSVC_GENERATOR + " Win64"
 }
-&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DWITH_OPENEXR=1" "-DDEPENDENCY_SEARCH_PREFIX=$VSP_INSTALL_PATH" "-DZLIB_LIBRARY=$VSP_LIB_UNIXPATH/z.lib" "-DJPEG_LIBRARY=$VSP_LIB_UNIXPATH/jpeg.lib"  "-DTIFF_LIBRARY=$VSP_LIB_UNIXPATH/tiff.lib" "-DPNG_LIBRARY=$VSP_LIB_UNIXPATH/png.lib" ".." >> $logFile
-
+if($pureimpexlib)
+{
+	&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DWITH_OPENEXR=0" "-DWITH_HDF5=0" "-DDEPENDENCY_SEARCH_PREFIX=$VSP_INSTALL_PATH" "-DJPEG_LIBRARY=$VSP_LIB_UNIXPATH/libjpeg.lib"  "-DTIFF_LIBRARY=$VSP_LIB_UNIXPATH/libtiff.lib" "-DZLIB_LIBRARY_RELEASE=$VSP_LIB_UNIXPATH/zlibstat.lib" "-DPNG_LIBRARY=$VSP_LIB_UNIXPATH/libpng16_static.lib" ".." >> $logFile
+}
+else
+{
+	&"$VSP_BIN_PATH\cmake.exe" "-G$VSP_CMAKE_MSVC_GENERATOR" "-DCMAKE_INSTALL_PREFIX=$VSP_INSTALL_PATH" "-DCMAKE_PREFIX_PATH=$VSP_INSTALL_PATH" "-DWITH_OPENEXR=1" "-DDEPENDENCY_SEARCH_PREFIX=$VSP_INSTALL_PATH" "-DZLIB_LIBRARY=$VSP_LIB_UNIXPATH/z.lib" "-DJPEG_LIBRARY=$VSP_LIB_UNIXPATH/jpeg.lib"  "-DTIFF_LIBRARY=$VSP_LIB_UNIXPATH/tiff.lib" "-DPNG_LIBRARY=$VSP_LIB_UNIXPATH/png.lib" ".." >> $logFile
+}
 devenv vigra.sln /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 
 #------------------------------------------------------------------------------
