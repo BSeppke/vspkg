@@ -105,5 +105,5 @@ devenv vigra.sln /Project INSTALL /Build "Release|$VSP_BUILD_ARCH" >> $logFile
 #------------------------------------------------------------------------------
 
 cd ..\..\..
-rd work -force -recurse
+#rd work -force -recurse
 write-host "vigra has been installed successfully!" -Foreground Green
