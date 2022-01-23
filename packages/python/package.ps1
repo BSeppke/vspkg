@@ -290,7 +290,7 @@ cd "Python-3.8.9\PCBuild"
 #------------------------------------------------------------------------------
 create-directory-if-necessary "$VSP_PYTHON_PATH"
 create-directory-if-necessary "$VSP_PYTHON_PATH\include"
-create-directory-if-necessary "$VSP_PYTHON_PATH\cpython"
+create-directory-if-necessary "$VSP_PYTHON_PATH\include\cpython"
 create-directory-if-necessary "$VSP_PYTHON_PATH\DLLs"
 create-directory-if-necessary "$VSP_PYTHON_PATH\libs"
 
